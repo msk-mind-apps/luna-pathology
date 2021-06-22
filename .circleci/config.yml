@@ -7,9 +7,7 @@ version: 2.1
 # usecase focussed integration tests if code changes frequently
 
 orbs:
-  codecov: codecov/codecov@1.0.2
-
-jobs:
+  codecov: codecov/codecov@1.2.3
   build:
     docker:
       - image: circleci/python:3.6.8  # primary container for the build job
@@ -22,7 +20,7 @@ jobs:
       - run: java -version
       - run: which java
       - run: echo "export PATH=/home/circleci/.local/bin:$PATH" >> $BASH_ENV  # some python packages get installed  here
-      - run: echo "export CODECOV_TOKEN="4d2ae912-4489-4e40-ac13-02add6c0d1a6"" >> $BASH_ENV
+      - run: echo "export CODECOV_TOKEN="a5ea6162-7800-42e5-ae23-86298340c7ea"" >> $BASH_ENV
       - run: export PYSPARK_PYTHON=`which python`
       - run: echo $PATH
       - run: python --version
