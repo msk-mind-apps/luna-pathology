@@ -20,7 +20,7 @@ luna-pathology
 
 
 
-Pathology Whole Slide Image (WSI) processing pipeline for computational oncology
+Pathology Whole Slide Image (WSI) processing pipeline for computational oncology.
 
 
 * Free software: Apache Software License 2.0
