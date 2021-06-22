@@ -32,7 +32,7 @@ jobs:
       - run: pip list
       - run: pip check
       - run: sudo python setup.py install  # needed to run the cli unit tests
-      - run: pytest -v --capture=tee-sys --show-capture=all --cov=data_processing tests --cov-report=xml
+      - run: pytest -v --capture=tee-sys --show-capture=all --cov=luna_pathology tests --cov-report=xml
       - run: coverage report -m
       - store_artifacts:
           path: htmlcov

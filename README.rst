@@ -1,7 +1,7 @@
 ==============
 luna-pathology
 ==============
-
+[![MSK-MIND-APPS](https://circleci.com/gh/msk-mind-apps/luna-pathology.svg?style=shield)](https://circleci.com/gh/msk-mind-apps/luna-pathology) [![codecov](https://codecov.io/gh/msk-mind-apps/luna-pathology/branch/master/graph/badge.svg)](https://app.codecov.io/gh/msk-mind-apps/luna-pathology)
 
 .. image:: https://img.shields.io/pypi/v/luna_pathology.svg
         :target: https://pypi.python.org/pypi/luna_pathology
