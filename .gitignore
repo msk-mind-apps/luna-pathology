@@ -1,0 +1,4 @@
+.idea
+venv
+luna_pathology/__pycache__/
+tests/__pycache__/
