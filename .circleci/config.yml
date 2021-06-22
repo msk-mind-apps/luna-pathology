@@ -8,6 +8,8 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@1.2.3
+
+jobs:
   build:
     docker:
       - image: circleci/python:3.6.8  # primary container for the build job
