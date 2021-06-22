@@ -1,0 +1,40 @@
+version: 2.1
+
+# ideas for the future:
+# @todo https://circleci.com/docs/2.0/workflows/
+# @todo https://github.com/features/actions (github actions are similar to circleci and works for also forked repos)
+# docker-compose integration testing in circleci
+# usecase focussed integration tests if code changes frequently
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.8  # primary container for the build job
+
+    steps:
+      - checkout
+      - run: cat /etc/os-release
+      - run: sudo apt update
+      - run: sudo apt install openslide-tools python-openslide default-jre
+      - run: java -version
+      - run: which java
+      - run: echo "export PATH=/home/circleci/.local/bin:$PATH" >> $BASH_ENV  # some python packages get installed  here
+      - run: echo "export CODECOV_TOKEN="4d2ae912-4489-4e40-ac13-02add6c0d1a6"" >> $BASH_ENV
+      - run: export PYSPARK_PYTHON=`which python`
+      - run: echo $PATH
+      - run: python --version
+      - run: sudo pip install --upgrade pip
+      - run: pip --version
+      - run: sudo pip install -r requirements_dev.txt
+      - run: pip list
+      - run: pip check
+      - run: sudo python setup.py install  # needed to run the cli unit tests
+      - run: pytest -v --capture=tee-sys --show-capture=all --cov=data_processing tests --cov-report=xml
+      - run: coverage report -m
+      - store_artifacts:
+          path: htmlcov
+      - codecov/upload:
+          file: coverage.xml
