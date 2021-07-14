@@ -52,7 +52,7 @@ lint: ## check style with flake8
 
 test: ## run tests quickly with the default Python
 	pip install --upgrade pip
-	pip install --use-feature=2020-resolver -r requirements_dev.txt
+	pip install -e .
 	pytest
 
 test-all: ## run tests on every Python version with tox

@@ -1,12 +1,10 @@
-pip==19.2.3
-bump2version==0.5.11
-wheel==0.33.6
-watchdog==0.9.0
-flake8==3.7.8
-tox==3.14.0
-coverage==4.5.4
-Sphinx==1.8.5
-twine==1.14.0
-Click==7.0
-pytest==6.2.4
-pytest-cov
+# Editable mode. Requirements are picked up from setup.cfg's install_requires directive and matched
+# up to versions in the the index list above
+
+# https://packaging.python.org/discussions/install-requires-vs-requirements/
+# https://caremad.io/posts/2013/07/setup-vs-requirement/
+--index-url https://pypi.python.org/simple/
+
+# to override abstract requirements in setup.cfg to specific versions, place specific version entries here
+
+-e .
