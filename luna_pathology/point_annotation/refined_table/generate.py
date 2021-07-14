@@ -12,13 +12,13 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import first, last, col, lit, desc, udf, explode, array, to_json, current_timestamp
 from pyspark.sql.types import ArrayType, StringType, MapType, IntegerType, StructType, StructField
 
-from data_processing.common.CodeTimer import CodeTimer
-from data_processing.common.config import ConfigSet
-from data_processing.common.custom_logger import init_logger
-from data_processing.common.sparksession import SparkConfig
-import data_processing.common.constants as const
-from data_processing.common.utils import get_absolute_path
-from data_processing.pathology.common.utils import get_labelset_keys
+from luna_core.common.CodeTimer import CodeTimer
+from luna_core.common.config import ConfigSet
+from luna_core.common.custom_logger import init_logger
+from luna_core.common.sparksession import SparkConfig
+import luna_core.common.constants as const
+from luna_core.common.utils import get_absolute_path
+from luna_pathology.common.utils import get_labelset_keys
 
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 
@@ -54,7 +54,7 @@ def cli(data_config_file, app_config_file):
         specified in the data_config_file.
 
         Example:
-            python3 -m data_processing.pathology.point_annotation.refined_table.generate \
+            python3 -m luna_pathology.point_annotation.refined_table.generate \
                      --data_config_file <path to data config file> \
                      --app_config_file <path to app config file>
     """
@@ -80,7 +80,7 @@ def cli(data_config_file, app_config_file):
 def create_refined_table():
 
     cfg = ConfigSet()
-    spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name="data_processing.pathology.point_annotation.refined_table.generate")
+    spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name="luna_pathology.point_annotation.refined_table.generate")
 
     # load paths from configs
     point_table_path = const.TABLE_LOCATION(cfg, is_source=True)
@@ -105,8 +105,8 @@ def create_refined_table():
     df = df.withColumn("geojson", build_geojson_from_pointclick_json_udf(lit(str(label_config)), "labelset", "sv_json")).cache()
 
     # populate "date_added", "date_updated","latest", "sv_json_record_uuid"
-    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../../common/EnsureByteContext.py"))
-    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../../common/utils.py"))
+    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/EnsureByteContext.py"))
+    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/utils.py"))
     from utils import generate_uuid_dict
     geojson_record_uuid_udf = udf(generate_uuid_dict, StringType())
 

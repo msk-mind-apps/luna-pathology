@@ -8,16 +8,16 @@ Given a slide (container) ID
 3. save tiles as a csv with schema [address, coordinates, *scores, *labels ]
 
 Example:
-python3 -m data_processing.pathology.cli.generate_tile_labels \
+python3 -m luna_pathology.cli.generate_tile_labels \
     -c TCGA-BRCA \
     -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m data_processing/pathology/cli/examples/generate_tile_labels.json 
+    -m luna_pathology/cli/examples/generate_tile_labels.json
 
 Example with annotation:
-python3 -m data_processing.pathology.cli.generate_tile_labels \
+python3 -m luna_pathology.cli.generate_tile_labels \
     -c TCGA-BRCA \
     -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m data_processing/pathology/cli/examples/generate_tile_labels_with_ov_labels.json 
+    -m luna_pathology/cli/examples/generate_tile_labels_with_ov_labels.json
 '''
 
 # General imports
@@ -25,12 +25,12 @@ import os, json, logging
 import click
 
 # From common
-from data_processing.common.custom_logger   import init_logger
-from data_processing.common.DataStore       import DataStore_v2
-from data_processing.common.config          import ConfigSet
+from luna_core.common.custom_logger   import init_logger
+from luna_core.common.DataStore       import DataStore_v2
+from luna_core.common.config          import ConfigSet
 
 # From radiology.common
-from data_processing.pathology.common.preprocess   import run_model
+from luna_pathology.common.preprocess   import run_model
 
 @click.command()
 @click.option('-a', '--app_config', required=True,

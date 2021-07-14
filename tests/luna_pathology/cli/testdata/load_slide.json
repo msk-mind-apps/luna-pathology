@@ -1,5 +1,5 @@
 {
     "job_tag": "pathology.etl",
-    "table_path": "tests/data_processing/pathology/cli/testdata/data/test-project/tables/WSI_ds",
-    "datastore_path": "tests/data_processing/pathology/cli/testdata/data/test/slides"
+    "table_path": "tests/luna_pathology/cli/testdata/data/test-project/tables/WSI_ds",
+    "datastore_path": "tests/luna_pathology/cli/testdata/data/test/slides"
 }

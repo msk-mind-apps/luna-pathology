@@ -10,12 +10,12 @@ from click.testing import CliRunner
 import os, sys
 from pathlib import Path
 
-from data_processing.common.config import ConfigSet
-from data_processing.common.sparksession import SparkConfig
-from data_processing.pathology.proxy_table.regional_annotation import generate
-from data_processing.pathology.proxy_table.regional_annotation.generate import cli, convert_bmp_to_npy, \
+from luna_core.common.config import ConfigSet
+from luna_core.common.sparksession import SparkConfig
+from luna_pathology.proxy_table.regional_annotation import generate
+from luna_pathology.proxy_table.regional_annotation.generate import cli, convert_bmp_to_npy, \
     create_proxy_table, process_regional_annotation_slide_row_pandas
-import data_processing.common.constants as const
+import luna_core.common.constants as const
 
 spark = None
 LANDING_PATH = None
@@ -26,7 +26,7 @@ def setup_module(module):
     """ setup any state specific to the execution of the given module."""
     ConfigSet(name=const.APP_CFG, config_file='tests/test_config.yaml')
     ConfigSet(name=const.DATA_CFG,
-              config_file='tests/data_processing/pathology/common/testdata/data_config_with_slideviewer_csv.yaml')
+              config_file='tests/luna_pathology/common/testdata/data_config_with_slideviewer_csv.yaml')
     module.spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name='test-pathology-annotation-proxy')
 
     cfg = ConfigSet()
@@ -49,7 +49,7 @@ def teardown_module(module):
 
 
 def test_convert_bmp_to_npy():
-    actual_path = convert_bmp_to_npy('tests/data_processing/pathology/proxy_table/'
+    actual_path = convert_bmp_to_npy('tests/luna_pathology/proxy_table/'
                                          'regional_annotation/test_data/input/labels.bmp',
                                          LANDING_PATH)
 
@@ -62,11 +62,11 @@ def test_process_regional_annotation_slide_row_pandas(monkeypatch, requests_mock
     monkeypatch.setenv("MIND_GPFS_DIR", "")
     monkeypatch.setenv("HDFS_URI", "")
 
-    import data_processing
-    sys.modules['slideviewer_client'] = data_processing.pathology.common.slideviewer_client
+    import luna_pathology
+    sys.modules['slideviewer_client'] = luna_pathology.common.slideviewer_client
 
     requests_mock.get("https://fakeslides-res.mskcc.org/slides/someuser@mskcc.org/projects;155;CMU-1.svs/getLabelFileBMP",
-                      content=Path('tests/data_processing/pathology/proxy_table/regional_annotation/test_data/input/CMU-1.zip').read_bytes())
+                      content=Path('tests/luna_pathology/proxy_table/regional_annotation/test_data/input/CMU-1.zip').read_bytes())
 
     requests_mock.get("https://fake-slides-res.mskcc.org/exportProjectCSV?pid=155",
                       content=b'Title: IRB #16-1144 Subset\n' \
@@ -86,15 +86,15 @@ def test_process_regional_annotation_slide_row_pandas(monkeypatch, requests_mock
             'date_updated': ['2021-02-02 10:07:55.802143'],
             'bmp_record_uuid': [''],
             'latest': [True],
-            'SLIDE_BMP_DIR': ['tests/data_processing/pathology/proxy_table/regional_annotation/test_data/output/regional_bmps'],
-            'TMP_ZIP_DIR': ['tests/data_processing/pathology/proxy_table/regional_annotation/test_data/output/gynocology_tmp_zips'],
+            'SLIDE_BMP_DIR': ['tests/luna_pathology/proxy_table/regional_annotation/test_data/output/regional_bmps'],
+            'TMP_ZIP_DIR': ['tests/luna_pathology/proxy_table/regional_annotation/test_data/output/gynocology_tmp_zips'],
             'SLIDEVIEWER_API_URL':['https://fakeslides-res.mskcc.org/']}
 
     df = pandas.DataFrame(data=data)
 
     df = process_regional_annotation_slide_row_pandas(df)
 
-    assert df['bmp_filepath'].item() == 'tests/data_processing/pathology/proxy_table/regional_annotation' \
+    assert df['bmp_filepath'].item() == 'tests/luna_pathology/proxy_table/regional_annotation' \
                                         '/test_data/output/regional_bmps/CMU-1' \
                                         '/CMU-1_someuser_SVBMP-90649b2e6e64b4925eed1f32bb68560ade249a9c3bf8e9b27bebebe005638375_annot.bmp'
     assert df['bmp_record_uuid'].item() == 'SVBMP-90649b2e6e64b4925eed1f32bb68560ade249a9c3bf8e9b27bebebe005638375'
@@ -108,16 +108,16 @@ def test_create_proxy_table(monkeypatch):
         data = {'slideviewer_path': ['CMU-1.svs'],
                 'slide_id': ['CMU-1'],
                 'sv_project_id': [155],
-                'bmp_filepath': ['tests/data_processing/pathology/proxy_table/regional_annotation/test_data/input/labels.bmp'],
+                'bmp_filepath': ['tests/luna_pathology/proxy_table/regional_annotation/test_data/input/labels.bmp'],
                 'user': ['someuser'],
                 'date_added': [1612403271],
                 'date_updated': [1612403271],
                 'bmp_record_uuid': ['SVBMP-90836da'],
                 'latest': [True],
                 'SLIDE_BMP_DIR': [
-                    'tests/data_processing/pathology/proxy_table/regional_annotation/test_data/output/regional_bmps'],
+                    'tests/luna_pathology/proxy_table/regional_annotation/test_data/output/regional_bmps'],
                 'TMP_ZIP_DIR': [
-                    'tests/data_processing/pathology/proxy_table/regional_annotation/test_data/output/gynocology_tmp_zips'],
+                    'tests/luna_pathology/proxy_table/regional_annotation/test_data/output/gynocology_tmp_zips'],
                 'SLIDEVIEWER_API_URL': ['https://fakeslides-res.mskcc.org/']}
 
         return pandas.DataFrame(data=data)

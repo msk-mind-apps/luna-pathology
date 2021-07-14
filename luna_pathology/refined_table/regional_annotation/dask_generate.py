@@ -2,13 +2,13 @@ import click
 import os
 import shutil
 
-from data_processing.common.CodeTimer       import CodeTimer
-from data_processing.common.config          import ConfigSet
-from data_processing.common.custom_logger   import init_logger
-import data_processing.common.constants as const
+from luna_core.common.CodeTimer       import CodeTimer
+from luna_core.common.config          import ConfigSet
+from luna_core.common.custom_logger   import init_logger
+import luna_core.common.constants as const
 
-from data_processing.pathology.common.annotation_utils   import convert_slide_bitmap_to_geojson, check_slideviewer_and_download_bmp
-from data_processing.pathology.common.slideviewer_client import fetch_slide_ids
+from luna_pathology.common.annotation_utils   import convert_slide_bitmap_to_geojson, check_slideviewer_and_download_bmp
+from luna_pathology.common.slideviewer_client import fetch_slide_ids
 
 import pandas as pd
 import numpy as np
@@ -28,7 +28,7 @@ def cli(data_config_file, app_config_file):
          specified in the data_config_file.
 
         Example:
-            python3 -m data_processing.pathology.refined_table.regional_annotation.dask_generate \
+            python3 -m luna_pathology.refined_table.regional_annotation.dask_generate \
                      --data_config_file <path to data config file> \
                      --app_config_file <path to app config file> \
     """

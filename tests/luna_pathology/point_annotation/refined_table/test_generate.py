@@ -2,14 +2,14 @@ import pytest
 import os, shutil
 from click.testing import CliRunner
 
-from data_processing.common.config import ConfigSet
-from data_processing.common.sparksession import SparkConfig
-from data_processing.pathology.point_annotation.refined_table.generate import cli
-import data_processing.common.constants as const
+from luna_core.common.config import ConfigSet
+from luna_core.common.sparksession import SparkConfig
+from luna_pathology.point_annotation.refined_table.generate import cli
+import luna_core.common.constants as const
 
 
-point_geojson_table_path = "tests/data_processing/pathology/point_annotation/testdata/test-project/tables/POINT_GEOJSON_dsn"
-config_path = "tests/data_processing/pathology/point_annotation/testdata/test-project/configs"
+point_geojson_table_path = "tests/luna_pathology/point_annotation/testdata/test-project/tables/POINT_GEOJSON_dsn"
+config_path = "tests/luna_pathology/point_annotation/testdata/test-project/configs"
 app_config_path = config_path + "/POINT_GEOJSON_dsn/app_config.yaml"
 data_config_path = config_path + "/POINT_GEOJSON_dsn/data_config.yaml"
 
@@ -31,7 +31,7 @@ def test_cli(spark):
 
     runner = CliRunner()
     result = runner.invoke(cli, 
-        ['-d', 'tests/data_processing/pathology/point_annotation/testdata/point_geojson_config.yaml',
+        ['-d', 'tests/luna_pathology/point_annotation/testdata/point_geojson_config.yaml',
          '-a', 'tests/test_config.yaml'])
 
     print(result.exc_info)

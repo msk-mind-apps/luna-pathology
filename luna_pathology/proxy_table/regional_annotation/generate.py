@@ -11,19 +11,19 @@ from filehash import FileHash
 from pyspark.sql.functions import array, current_timestamp, explode, lit
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
-from data_processing.common.CodeTimer import CodeTimer
-from data_processing.common.config import ConfigSet
-from data_processing.common.custom_logger import init_logger
-from data_processing.common.sparksession import SparkConfig
-import data_processing.common.constants as const
+from luna_core.common.CodeTimer import CodeTimer
+from luna_core.common.config import ConfigSet
+from luna_core.common.custom_logger import init_logger
+from luna_core.common.sparksession import SparkConfig
+import luna_core.common.constants as const
 
 import pandas as pd
 import numpy as np
 
 import os
 
-from data_processing.common.utils import get_absolute_path
-from data_processing.pathology.common.slideviewer_client import fetch_slide_ids
+from luna_core.common.utils import get_absolute_path
+from luna_pathology.common.slideviewer_client import fetch_slide_ids
 
 logger = init_logger()
 
@@ -147,7 +147,7 @@ def create_proxy_table():
     cfg = ConfigSet()
     spark = SparkConfig().spark_session(
                                  config_name=const.APP_CFG,
-                                 app_name="data_processing.pathology.proxy_table.annotation.generate")
+                                 app_name="luna_pathology.proxy_table.annotation.generate")
 
     SLIDEVIEWER_API_URL = cfg.get_value(path=const.DATA_CFG + '::SLIDEVIEWER_API_URL')
     SLIDEVIEWER_CSV_FILE = cfg.get_value(path=const.DATA_CFG + '::SLIDEVIEWER_CSV_FILE')
@@ -268,7 +268,7 @@ def cli(data_config_file, app_config_file):
         npy_filepath - file path to generated npy annotation file
 
         Usage:
-        python3 -m data_processing.pathology.proxy_table.regional_annotation.generate \
+        python3 -m luna_pathology.proxy_table.regional_annotation.generate \
             -d {data_config_yaml} \
             -a {app_config_yaml}
     """

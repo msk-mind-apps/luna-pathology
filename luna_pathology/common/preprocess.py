@@ -30,7 +30,7 @@ import importlib
 
 from shapely.geometry import shape, Point, Polygon
 
-from data_processing.common.DataStore import DataStore_v2
+from luna_core.common.DataStore import DataStore_v2
 from random import randint
 import torch
 

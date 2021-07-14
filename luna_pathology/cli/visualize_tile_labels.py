@@ -8,16 +8,16 @@ Given a slide (container) ID
 3. save tiles as a csv with schema [address, coordinates, *scores, *labels ]
 
 Example:
-python3 -m data_processing.pathology.cli.visualize_tile_labels \
+python3 -m luna_pathology.cli.visualize_tile_labels \
     -c TCGA-BRCA \
     -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m data_processing/pathology/cli/example_visualize_tile_labels.json
+    -m luna_pathology/cli/example_visualize_tile_labels.json
 
 Example with annotation:
-python3 -m data_processing.pathology.cli.visualize_tile_labels \
+python3 -m luna_pathology.cli.visualize_tile_labels \
         -c ov-path-druv  \
         -s 226871 \
-        -m data_processing/pathology/cli/example_visualize_tile_labels.json 
+        -m luna_pathology/cli/example_visualize_tile_labels.json
 '''
 
 # General imports
@@ -27,11 +27,11 @@ import tempfile
 import subprocess
 
 # From common
-from data_processing.common.custom_logger   import init_logger
-from data_processing.common.DataStore       import DataStore_v2
-from data_processing.common.config          import ConfigSet
+from luna_core.common.custom_logger   import init_logger
+from luna_core.common.DataStore       import DataStore_v2
+from luna_core.common.config          import ConfigSet
 
-from data_processing.pathology.common.preprocess   import create_tile_thumbnail_image
+from luna_pathology.common.preprocess   import create_tile_thumbnail_image
 
 
 @click.command()
@@ -106,7 +106,7 @@ def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, met
                     json.dump(method_data["dsa_config"], f)
 
                 # build viz
-                result = subprocess.run(["python3","-m","data_processing.pathology.cli.dsa.dsa_viz",
+                result = subprocess.run(["python3","-m","luna_pathology.cli.dsa.dsa_viz",
                                          "-s", "heatmap",
                                          "-d", f"{tmpdir}/model_inference_config.json"],
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
@@ -119,7 +119,7 @@ def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, met
                 with open(f"{tmpdir}/model_inference_config.json", "w") as f:
                     json.dump(properties, f)
 
-                subprocess.run(["python3","-m","data_processing.pathology.cli.dsa.dsa_upload",
+                subprocess.run(["python3","-m","luna_pathology.cli.dsa.dsa_upload",
                                  "-c", f"{tmpdir}/dsa_config.json", "-d", f"{tmpdir}/model_inference_config.json"])
 
     except Exception as e:

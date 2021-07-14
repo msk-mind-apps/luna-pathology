@@ -53,7 +53,7 @@ lint: ## check style with flake8
 test: ## run tests quickly with the default Python
 	pip install --upgrade pip
 	pip install -e .
-	pytest
+	pytest --log-cli-level=WARNING
 
 test-all: ## run tests on every Python version with tox
 	tox

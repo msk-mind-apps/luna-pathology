@@ -1,7 +1,7 @@
-### This is just data_processing/pathology/common/utils.py
+### This is just luna_pathology/common/utils.py
 
-from   data_processing.common.config import ConfigSet
-import data_processing.common.constants as const
+from   luna_core.common.config import ConfigSet
+import luna_core.common.constants as const
 
 import xml.etree.ElementTree as et
 import numpy as np

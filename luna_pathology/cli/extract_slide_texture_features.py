@@ -3,8 +3,8 @@ import os
 import pandas as pd
 from dask.distributed import as_completed
 
-from data_processing.common.dask import dask_job 
-from data_processing.pathology.common.utils import get_slide_roi_masks, get_stain_vectors_macenko, extract_patch_texture_features
+from luna_core.common.dask import dask_job
+from luna_pathology.common.utils import get_slide_roi_masks, get_stain_vectors_macenko, extract_patch_texture_features
 
 from scipy import stats
 import pyarrow.parquet as pq

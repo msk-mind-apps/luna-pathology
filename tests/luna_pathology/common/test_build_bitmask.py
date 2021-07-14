@@ -1,7 +1,7 @@
-from data_processing.pathology.common.utils import *
+from luna_pathology.common.utils import *
 import numpy as np
 
-xml_data_path = 'tests/data_processing/testdata/data/test-project/pathology_annotations/123456_annotation_from_halo.xml'
+xml_data_path = 'tests/luna_pathology/testdata/data/test-project/pathology_annotations/123456_annotation_from_halo.xml'
 
 def test_convert_halo_xml_to_roi():
    roi = convert_halo_xml_to_roi(xml_data_path)

@@ -1,12 +1,12 @@
-from data_processing.common.config import ConfigSet
-import data_processing.common.constants as const
-from data_processing.pathology.common.utils import get_labelset_keys
+from luna_core.common.config import ConfigSet
+import luna_core.common.constants as const
+from luna_pathology.common.utils import get_labelset_keys
 
 
 def test_get_labelset_keys():
 
     cfg = ConfigSet(name=const.DATA_CFG,
-                    config_file='tests/data_processing/pathology/common/testdata/point_geojson_config.yaml')
+                    config_file='tests/luna_pathology/common/testdata/point_geojson_config.yaml')
 
     res = get_labelset_keys()
 

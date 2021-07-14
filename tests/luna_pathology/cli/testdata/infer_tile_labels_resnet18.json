@@ -4,11 +4,11 @@
     "tile_size": 128,
     "scale_factor": 16,
     "magnification": 20,
-    "model_package": "data_processing.pathology.models.ov_tissuenet",
+    "model_package": "luna_pathology.models.ov_tissuenet",
     "model": {
       "checkpoint_path": "some_epoch018.torch",
       "n_classes": 4
   },
-  "root_path": "tests/data_processing/pathology/cli/testdata/data/test/slides"
+  "root_path": "tests/luna_pathology/cli/testdata/data/test/slides"
 }
   

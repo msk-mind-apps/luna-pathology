@@ -13,11 +13,11 @@ import click
 from pathlib import Path
 
 # From common
-from data_processing.common.custom_logger   import init_logger
-from data_processing.common.DataStore       import DataStore_v2
-from data_processing.common.Node            import Node
-from data_processing.common.config          import ConfigSet
-from data_processing.common.sparksession     import SparkConfig
+from luna_core.common.custom_logger   import init_logger
+from luna_core.common.DataStore       import DataStore_v2
+from luna_core.common.Node            import Node
+from luna_core.common.config          import ConfigSet
+from luna_core.common.sparksession     import SparkConfig
 
 
 @click.command()

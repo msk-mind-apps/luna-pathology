@@ -6,7 +6,7 @@
     "tile_size": 256,
     "magnification": 20,
     "collection_name": "tcga",
-    "output_folder": "tests/data_processing/pathology/cli/testdata/data_staging",
+    "output_folder": "tests/luna_pathology/cli/testdata/data_staging",
     "dsa_config": {
       "host": "localhost",
       "port": "8080",

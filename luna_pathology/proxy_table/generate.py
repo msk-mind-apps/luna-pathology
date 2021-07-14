@@ -8,14 +8,14 @@ Memorial Sloan Kettering Cancer Center
 
 import click
 
-from data_processing.common.CodeTimer import CodeTimer
-from data_processing.common.config import ConfigSet
-from data_processing.common.custom_logger import init_logger
-from data_processing.common.sparksession import SparkConfig
-import data_processing.common.constants as const
-from data_processing.common.utils import generate_uuid, get_absolute_path
-from data_processing.common.DataStore import DataStore 
-from data_processing.common.DataStore import Node 
+from luna_core.common.CodeTimer import CodeTimer
+from luna_core.common.config import ConfigSet
+from luna_core.common.custom_logger import init_logger
+from luna_core.common.sparksession import SparkConfig
+import luna_core.common.constants as const
+from luna_core.common.utils import generate_uuid, get_absolute_path
+from luna_core.common.DataStore import DataStore
+from luna_core.common.DataStore import Node
 
 from pyspark.sql.functions import udf, lit, col, array
 from pyspark.sql.types import StringType, MapType
@@ -74,7 +74,7 @@ def cli(data_config_file, app_config_file, process_string):
      the data_config_file.
 
         Example:
-            python3 -m data_processing.pathology.proxy_table.generate \
+            python3 -m luna_pathology.proxy_table.generate \
                      --data_config_file <path to data config file> \
                      --app_config_file <path to app config file> \
                      --process_string transfer,delta
@@ -114,7 +114,7 @@ def create_proxy_table(config_file):
 
     exit_code = 0
     cfg = ConfigSet()
-    spark = SparkConfig().spark_session(config_name=APP_CFG, app_name="data_processing.pathology.proxy_table.generate")
+    spark = SparkConfig().spark_session(config_name=APP_CFG, app_name="luna_pathology.proxy_table.generate")
 
     logger.info("generating binary proxy table... ")
     save_path = const.TABLE_LOCATION(cfg)
@@ -160,7 +160,7 @@ def update_graph(config_file):
 
     exit_code = 0
     cfg  = ConfigSet()
-    spark = SparkConfig().spark_session(config_name=APP_CFG, app_name="data_processing.pathology.proxy_table.generate")
+    spark = SparkConfig().spark_session(config_name=APP_CFG, app_name="luna_pathology.proxy_table.generate")
 
     namespace  = cfg.get_value("DATA_CFG::PROJECT")
     table_path = const.TABLE_LOCATION(cfg)

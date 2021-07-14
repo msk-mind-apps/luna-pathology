@@ -5,13 +5,13 @@ REQUESTOR_DEPARTMENT: pathology
 
 REQUESTOR_EMAIL: jane@mskcc.org
 
-ROOT_PATH: tests/data_processing/testdata/data
+ROOT_PATH: tests/luna_pathology/testdata/data
 
-LANDING_PATH: tests/data_processing/testdata/data/test-project/wsi-project
+LANDING_PATH: tests/luna_pathology/testdata/data/test-project/wsi-project
 
-SOURCE_PATH: tests/data_processing/testdata/data/test-project/wsi
+SOURCE_PATH: tests/luna_pathology/testdata/data/test-project/wsi
 
-RAW_DATA_PATH: tests/data_processing/testdata/data/test-project/wsi
+RAW_DATA_PATH: tests/luna_pathology/testdata/data/test-project/wsi
 
 PROJECT: test-project
 
@@ -39,7 +39,7 @@ FILE_COUNT: 1
 
 DATA_SIZE: 2000
 
-CHUNK_FILE: tests/data_processing/pathology/proxy_table/chunks.txt
+CHUNK_FILE: tests/luna_pathology/proxy_table/chunks.txt
 
 BWLIMIT: 1G
 

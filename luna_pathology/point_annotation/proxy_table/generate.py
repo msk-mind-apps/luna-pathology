@@ -12,13 +12,13 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import first, last, col, lit, desc, udf, explode, array, to_json, current_timestamp
 from pyspark.sql.types import ArrayType, StringType, IntegerType, MapType, StructType, StructField
 
-from data_processing.common.CodeTimer import CodeTimer
-from data_processing.common.config import ConfigSet
-from data_processing.common.custom_logger import init_logger
-from data_processing.common.sparksession import SparkConfig
-from data_processing.common.utils import get_absolute_path
-from data_processing.pathology.common.slideviewer_client import fetch_slide_ids
-import data_processing.common.constants as const
+from luna_core.common.CodeTimer import CodeTimer
+from luna_core.common.config import ConfigSet
+from luna_core.common.custom_logger import init_logger
+from luna_core.common.sparksession import SparkConfig
+from luna_core.common.utils import get_absolute_path
+from luna_pathology.common.slideviewer_client import fetch_slide_ids
+import luna_core.common.constants as const
 
 logger = init_logger()
 
@@ -59,7 +59,7 @@ def cli(data_config_file, app_config_file):
         parameters specified in the data_config_file.
 
         Example:
-            python3 -m data_processing.pathology.point_annotation.proxy_table.generate \
+            python3 -m luna_pathology.point_annotation.proxy_table.generate \
                      --data_config_file <path to data config file> \
                      --app_config_file <path to app config file>
     """
@@ -86,7 +86,7 @@ def create_proxy_table():
 
     cfg = ConfigSet()
 
-    spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name="data_processing.pathology.point_annotation.proxy_table.generate")
+    spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name="luna_pathology.point_annotation.proxy_table.generate")
 
     # load paths from configs
     point_table_path = const.TABLE_LOCATION(cfg)
@@ -125,9 +125,9 @@ def create_proxy_table():
     df = df.dropna(subset=["sv_json"])
 
     # populate "date_added", "date_updated","latest", "sv_json_record_uuid"
-    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../../common/EnsureByteContext.py"))
-    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../../common/utils.py"))
-    from utils import generate_uuid_dict
+    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/EnsureByteContext.py"))
+    spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/utils.py"))
+    from luna_core.common.utils import generate_uuid_dict
     sv_json_record_uuid_udf = udf(generate_uuid_dict, StringType())
 
     df = df.withColumn("sv_json_record_uuid", sv_json_record_uuid_udf(to_json("sv_json"), array(lit("SVPTJSON"))))

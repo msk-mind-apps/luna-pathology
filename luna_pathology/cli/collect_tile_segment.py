@@ -8,9 +8,9 @@ Given a slide (container) ID
 3. save tiles as a parquet file with schema [address, coordinates, *scores, *labels ]
 
 Example:
-python3 -m data_processing.pathology.cli.collect_tiles \
+python3 -m luna_pathology.cli.collect_tiles \
     -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m data_processing/pathology/cli/example_collect_tiles.json
+    -m luna_pathology/cli/example_collect_tiles.json
 '''
 
 # General imports
@@ -18,9 +18,9 @@ import os, json, logging, pathlib
 import click
 
 # From common
-from data_processing.common.custom_logger   import init_logger
-from data_processing.common.DataStore       import DataStore_v2
-from data_processing.common.config          import ConfigSet
+from luna_core.common.custom_logger   import init_logger
+from luna_core.common.DataStore       import DataStore_v2
+from luna_core.common.config          import ConfigSet
 
 import pandas as pd
 import pyarrow.parquet as pq

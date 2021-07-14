@@ -6,5 +6,5 @@
   "magnification": 20,
   "NOT_slideviewer_dmt": "no API",
   "NOT_labelset": "no API",
-  "root_path": "tests/data_processing/pathology/cli/testdata/data/test/slides"
+  "root_path": "tests/luna_pathology/cli/testdata/data/test/slides"
 }

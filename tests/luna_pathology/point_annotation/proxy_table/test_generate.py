@@ -3,13 +3,13 @@ import os, shutil, sys
 import requests
 from click.testing import CliRunner
 
-from data_processing.common.config import ConfigSet
-from data_processing.common.sparksession import SparkConfig
-import data_processing.common.constants as const
-from data_processing.pathology.point_annotation.proxy_table import generate
-from data_processing.pathology.point_annotation.proxy_table.generate import create_proxy_table, download_point_annotation, cli
+from luna_core.common.config import ConfigSet
+from luna_core.common.sparksession import SparkConfig
+import luna_core.common.constants as const
+from luna_pathology.point_annotation.proxy_table import generate
+from luna_pathology.point_annotation.proxy_table.generate import create_proxy_table, download_point_annotation, cli
 
-project_path = "tests/data_processing/pathology/point_annotation/testdata/test-project"
+project_path = "tests/luna_pathology/point_annotation/testdata/test-project"
 point_json_table_path = project_path + "/tables/POINT_RAW_JSON_ds"
 SLIDEVIEWER_URL = None
 ROOT_PATH = None
@@ -20,7 +20,7 @@ def setup_module(module):
     """ setup any state specific to the execution of the given module."""
     cfg = ConfigSet(name=const.APP_CFG, config_file='tests/test_config.yaml')
     cfg = ConfigSet(name=const.DATA_CFG,
-              config_file='tests/data_processing/pathology/point_annotation/testdata/point_js_config.yaml')
+              config_file='tests/luna_pathology/point_annotation/testdata/point_js_config.yaml')
     module.spark = SparkConfig().spark_session(config_name=const.APP_CFG, app_name='test-pathology-annotation-proxy')
 
     module.SLIDEVIEWER_URL = cfg.get_value(path=const.DATA_CFG + '::SLIDEVIEWER_URL')
@@ -47,8 +47,8 @@ def test_download_point_annotation(requests_mock):
                       text='[{"project_id":"8","image_id":"123.svs","label_type":"nucleus","x":"1440","y":"747","class":"0","classname":"Tissue 1"}, '+ \
                            '{"project_id":"8","image_id":"123.svs","label_type":"nucleus","x":"1424","y":"774","class":"3","classname":"Tissue 4"}]')
 
-    import data_processing
-    sys.modules['slideviewer_client'] = data_processing.pathology.common.slideviewer_client
+    import luna_pathology
+    sys.modules['slideviewer_client'] = luna_pathology.common.slideviewer_client
 
     res = download_point_annotation('http://test', "123.svs", 8, "username")
 

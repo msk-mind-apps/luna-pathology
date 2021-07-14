@@ -3,15 +3,15 @@ import os, shutil
 from click.testing import CliRunner
 import pandas,json
 
-from data_processing.common.config import ConfigSet
-from data_processing.common.sparksession import SparkConfig
-from data_processing.pathology.refined_table.regional_annotation.generate import cli
-import data_processing.common.constants as const
-# from data_processing.pathology.common.build_geojson import build_geojson_from_annotation
+from luna_core.common.config import ConfigSet
+from luna_core.common.sparksession import SparkConfig
+from luna_pathology.refined_table.regional_annotation.generate import cli
+import luna_core.common.constants as const
+# from luna_pathology.common.build_geojson import build_geojson_from_annotation
 
 from pyspark.sql.functions import  to_json, lit, collect_list, udf
 
-project_path = "tests/data_processing/testdata/data/test-project"
+project_path = "tests/luna_pathology/testdata/data/test-project"
 geojson_table_path = project_path + "/tables/REGIONAL_GEOJSON_dsn"
 geojson_app_config_path = project_path +  "/configs/REGIONAL_GEOJSON_dsn/app_config.yaml"
 geojson_data_config_path = project_path + "/configs/REGIONAL_GEOJSON_dsn/data_config.yaml"
@@ -38,7 +38,7 @@ def test_cli_geojson(spark):
 
     runner = CliRunner()
     result = runner.invoke(cli, 
-        ['-d', 'tests/data_processing/pathology/refined_table/regional_annotation/geojson_data.yaml',
+        ['-d', 'tests/luna_pathology/refined_table/regional_annotation/geojson_data.yaml',
          '-a', 'tests/test_config.yaml',
          '-p', 'geojson'])
 
@@ -57,7 +57,7 @@ def test_cli_concat(spark):
 
     runner = CliRunner()
     result = runner.invoke(cli,
-                           ['-d', 'tests/data_processing/pathology/refined_table/regional_annotation/geojson_concat_data.yaml',
+                           ['-d', 'tests/luna_pathology/refined_table/regional_annotation/geojson_concat_data.yaml',
                             '-a', 'tests/test_config.yaml',
                             '-p', 'concat'])
 
@@ -78,16 +78,16 @@ def test_hole_geojson(monkeypatch, spark):
     monkeypatch.setenv("HDFS_URI", "")
 
     # import setup
-    spark.sparkContext.addPyFile("./data_processing/pathology/common/build_geojson.py")
+    spark.sparkContext.addPyFile("./luna_pathology/common/build_geojson.py")
     from build_geojson import build_geojson_from_annotation
     from build_geojson import concatenate_regional_geojsons
-    from data_processing.pathology.refined_table.regional_annotation.generate import geojson_struct
+    from luna_pathology.refined_table.regional_annotation.generate import geojson_struct
 
 
     data = {'slideviewer_path': ['TEST-1.svs'],
             'slide_id': ['TEST-1'],
             'sv_project_id': [155],
-            'npy_filepath': ['tests/data_processing/pathology/refined_table/regional_annotation/test_data/small_holed_annotation.npy'],
+            'npy_filepath': ['tests/luna_pathology/refined_table/regional_annotation/test_data/small_holed_annotation.npy'],
             'user': ['someuser'],
             'bmp_record_uuid': ['SVBMP-1234567'],
             'labelset': ['TEST_LABELSET'],

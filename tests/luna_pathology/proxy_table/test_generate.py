@@ -3,14 +3,14 @@ import os, shutil
 from click.testing import CliRunner
 import os
 
-from data_processing.common.config import ConfigSet
-from data_processing.common.sparksession import SparkConfig
-from data_processing.pathology.proxy_table.generate import cli
-import data_processing.common.constants as const
+from luna_core.common.config import ConfigSet
+from luna_core.common.sparksession import SparkConfig
+from luna_pathology.proxy_table.generate import cli
+import luna_core.common.constants as const
 
 
-proxy_table_path = "tests/data_processing/testdata/data/test-project/tables/WSI_dsn"
-landing_path = "tests/data_processing/testdata/data"
+proxy_table_path = "tests/luna_pathology/testdata/data/test-project/tables/WSI_dsn"
+landing_path = "tests/luna_pathology/testdata/data"
 app_config_path = landing_path + '/test-project/configs/WSI_dsn/app_config.yaml'
 data_config_path = landing_path + '/test-project/configs/WSI_dsn/data_config.yaml'
 
@@ -32,7 +32,7 @@ def test_cli(spark):
 
     runner = CliRunner()
     result = runner.invoke(cli, 
-        ['-d', 'tests/data_processing/pathology/proxy_table/data.yaml',
+        ['-d', 'tests/luna_pathology/proxy_table/data.yaml',
         '-a', 'tests/test_config.yaml',
         '-p', 'delta'])
 

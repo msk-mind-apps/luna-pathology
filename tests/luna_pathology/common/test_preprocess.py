@@ -5,11 +5,11 @@ import numpy as np
 import openslide
 from openslide.deepzoom import DeepZoomGenerator
 
-from data_processing.pathology.common.preprocess import *
+from luna_pathology.common.preprocess import *
 
-output_dir = "tests/data_processing/pathology/common/testdata/output-123"
-slide_path = "tests/data_processing/pathology/common/testdata/123.svs"
-scores_csv_path = "tests/data_processing/pathology/common/testdata/input/tile_scores_and_labels.csv"
+output_dir = "tests/luna_pathology/common/testdata/output-123"
+slide_path = "tests/luna_pathology/common/testdata/123.svs"
+scores_csv_path = "tests/luna_pathology/common/testdata/input/tile_scores_and_labels.csv"
 slide = openslide.OpenSlide(slide_path)
 img_arr = get_downscaled_thumbnail(slide, 10)
 
@@ -68,15 +68,15 @@ def test_pretile_scoring(requests_mock):
               "filter": {
                   "otsu_score": 0.5
               },
-              "annotation_table_path": "tests/data_processing/pathology/common/testdata/project/tables/REGIONAL_METADATA_RESULTS"
+              "annotation_table_path": "tests/luna_pathology/common/testdata/project/tables/REGIONAL_METADATA_RESULTS"
               }
     res = pretile_scoring(slide_path, output_dir,
-                          "tests/data_processing/pathology/common/testdata/project/tables/REGIONAL_METADATA_RESULTS",
+                          "tests/luna_pathology/common/testdata/project/tables/REGIONAL_METADATA_RESULTS",
                           params, "123")
 
     print(res)
-    assert 'tests/data_processing/pathology/common/testdata/output-123/tiles.slice.pil' == res['data']
-    assert 'tests/data_processing/pathology/common/testdata/output-123/address.slice.csv' == res['aux']
+    assert 'tests/luna_pathology/common/testdata/output-123/tiles.slice.pil' == res['data']
+    assert 'tests/luna_pathology/common/testdata/output-123/address.slice.csv' == res['aux']
     assert 'RGB' == res['pil_image_bytes_mode']
     assert 20 == res['full_resolution_magnification']
     assert ['coordinates', 'otsu_score', 'purple_score', 'regional_label'] == res['available_labels']
@@ -90,7 +90,7 @@ def test_pretile_scoring(requests_mock):
 def test_run_model():
 
     params = {
-        "model_package": "data_processing.pathology.models.eng_tissuenet",
+        "model_package": "luna_pathology.models.eng_tissuenet",
         "model": {
             "checkpoint_path": "/gpfs/mskmindhdp_emc/user/shared_data_folder/kohlia/tile_classifier/ckpts/4.ckpt",
             "n_classes": 5
@@ -98,7 +98,7 @@ def test_run_model():
     }
     res = run_model('/gpfs/mskmindhdp_emc/data/TCGA-BRCA/TCGA-D8-A4Z1-01Z-00-DX1.D39D38B5-FC9F-4298-8720-016407DC6591/test_collect_tiles/tiles.slice.pil',
                     '/gpfs/mskmindhdp_emc/data/TCGA-BRCA/TCGA-D8-A4Z1-01Z-00-DX1.D39D38B5-FC9F-4298-8720-016407DC6591/test_collect_tiles/address.slice.csv',
-                    'tests/data_processing/pathology/common/testdata', params)
+                    'tests/luna_pathology/common/testdata', params)
 
     print(res)
 """

@@ -7,9 +7,9 @@ import os, sys
 import shutil
 import requests
 from pathlib import Path
-from data_processing.common.config import ConfigSet
-from data_processing.common.constants import DATA_CFG, CONFIG_LOCATION, PROJECT_LOCATION
-from data_processing.pathology.common.slideviewer_client import get_slide_id, fetch_slide_ids, \
+from luna_core.common.config import ConfigSet
+from luna_core.common.constants import DATA_CFG, CONFIG_LOCATION, PROJECT_LOCATION
+from luna_pathology.common.slideviewer_client import get_slide_id, fetch_slide_ids, \
     download_zip, unzip, download_sv_point_annotation
 
 SLIDEVIEWER_API_URL = None
@@ -25,7 +25,7 @@ def setup_module(module):
     """ setup any state specific to the execution of the given module."""
     ConfigSet(
         name=DATA_CFG,
-        config_file='tests/data_processing/pathology/common/testdata/data_config_with_slideviewer_csv.yaml')
+        config_file='tests/luna_pathology/common/testdata/data_config_with_slideviewer_csv.yaml')
     cfg = ConfigSet()
     module.SLIDEVIEWER_API_URL = cfg.get_value(path=DATA_CFG + '::SLIDEVIEWER_API_URL')
     module.LANDING_PATH = cfg.get_value(path=DATA_CFG + '::LANDING_PATH')
@@ -61,7 +61,7 @@ def test_fetch_slide_ids_with_csv(monkeypatch):
     # pretend like data config has value for SLIDEVIEWER_CSV_FILE
     def mock_get_value(*args, **kwargs):
         if kwargs['path'] == DATA_CFG + '::SLIDEVIEWER_CSV_FILE':
-            return 'tests/data_processing/pathology/common/testdata/input/slideviewer.csv'
+            return 'tests/luna_pathology/common/testdata/input/slideviewer.csv'
         else:
             return 'no_value'
 
@@ -101,7 +101,7 @@ def test_fetch_slide_ids_without_csv(requests_mock):
 def test_downlaod_zip(requests_mock):
 
     requests_mock.get(SLIDEVIEWER_API_URL,
-        content=Path('tests/data_processing/pathology/proxy_table/regional_annotation/test_data/input/CMU-1.zip').read_bytes())
+        content=Path('tests/luna_pathology/proxy_table/regional_annotation/test_data/input/CMU-1.zip').read_bytes())
     download_zip(SLIDEVIEWER_API_URL, zipfile_path, chunk_size=128)
 
 
@@ -109,7 +109,7 @@ def test_downlaod_zip(requests_mock):
 
 
 def test_unzip():
-    shutil.copyfile('tests/data_processing/pathology/proxy_table/'
+    shutil.copyfile('tests/luna_pathology/proxy_table/'
                             'regional_annotation/test_data/input/CMU-1.zip',
                     zipfile_path)
 
@@ -123,8 +123,8 @@ def test_download_sv_point_annotation(requests_mock):
                       text='[{"project_id":"8","image_id":"123.svs","label_type":"nucleus","x":"1440","y":"747","class":"0","classname":"Tissue 1"}, '+\
                            '{"project_id":"8","image_id":"123.svs","label_type":"nucleus","x":"1424","y":"774","class":"3","classname":"Tissue 4"}]')
 
-    import data_processing
-    sys.modules['slideviewer_client'] = data_processing.pathology.common.slideviewer_client
+    import luna_pathology
+    sys.modules['slideviewer_client'] = luna_pathology.common.slideviewer_client
 
     res = download_sv_point_annotation("http://test/user@8;123.svs/get")
 

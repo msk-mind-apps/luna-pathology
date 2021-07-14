@@ -8,8 +8,8 @@ from PIL import Image
 import re
 import numpy as np
 
-from data_processing.pathology.cli.dsa.dsa_api_handler import get_item_uuid, push_annotation_to_dsa_image, system_check
-from data_processing.pathology.cli.dsa.utils import get_color, get_continuous_color, \
+from luna_pathology.cli.dsa.dsa_api_handler import get_item_uuid, push_annotation_to_dsa_image, system_check
+from luna_pathology.cli.dsa.utils import get_color, get_continuous_color, \
     vectorize_np_array_bitmask_by_pixel_value
 
 # Base DSA jsons

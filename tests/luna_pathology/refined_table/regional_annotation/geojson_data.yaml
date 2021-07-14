@@ -1,5 +1,5 @@
 # root path to pathology data in the data lake
-ROOT_PATH: tests/data_processing/testdata/data
+ROOT_PATH: tests/luna_pathology/testdata/data
 
 PROJECT: test-project
 

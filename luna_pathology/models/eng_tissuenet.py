@@ -1,7 +1,7 @@
 """load_classifier
 Modified version of [1], rewritten to load tissue classifier models trained by
 the MIND team.
-[1] https://github.com/msk-mind/data-processing/blob/refactor-cli-fix-tests/data_processing/pathology/models/tissuenet.py
+[1] https://github.com/msk-mind/data-processing/blob/refactor-cli-fix-tests/luna_pathology/models/tissuenet.py
 """
 import torch
 import torchvision

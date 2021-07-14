@@ -2,8 +2,8 @@ import pytest
 from click.testing import CliRunner
 import os
 
-from data_processing.pathology.cli.dsa.dsa_viz import cli
-from data_processing.pathology.cli.dsa.dsa_upload import cli as upload
+from luna_pathology.cli.dsa.dsa_viz import cli
+from luna_pathology.cli.dsa.dsa_upload import cli as upload
 
 
 def test_stardist_polygon():
@@ -11,10 +11,10 @@ def test_stardist_polygon():
     runner = CliRunner()
     result = runner.invoke(cli,
                            ["-s", "stardist-polygon",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/stardist_polygon.json"])
+                            "-d","tests/luna_pathology/cli/dsa/testdata/stardist_polygon.json"])
 
     assert result.exit_code == 0
-    output_file = "tests/data_processing/pathology/cli/dsa/testouts/StarDist_Segmentations_with_Lymphocyte_Classifications_123.json"
+    output_file = "tests/luna_pathology/cli/dsa/testouts/StarDist_Segmentations_with_Lymphocyte_Classifications_123.json"
     assert os.path.exists(output_file)
     # cleanup
     os.remove(output_file)
@@ -24,11 +24,11 @@ def test_stardist_cell():
     runner = CliRunner()
     result = runner.invoke(cli,
                            ["-s", "stardist-cell",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/stardist_cell.json"])
+                            "-d","tests/luna_pathology/cli/dsa/testdata/stardist_cell.json"])
 
     assert result.exit_code == 0
 
-    output_file = "tests/data_processing/pathology/cli/dsa/testouts/Points_of_Classsified_StarDist_Cells_123.json"
+    output_file = "tests/luna_pathology/cli/dsa/testouts/Points_of_Classsified_StarDist_Cells_123.json"
     assert os.path.exists(output_file)
     # cleanup
     os.remove(output_file)
@@ -39,11 +39,11 @@ def test_regional_polygon():
     runner = CliRunner()
     result = runner.invoke(cli,
                            ["-s", "regional-polygon",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/regional_polygon.json"])
+                            "-d","tests/luna_pathology/cli/dsa/testdata/regional_polygon.json"])
 
     assert result.exit_code == 0
 
-    output_file = "tests/data_processing/pathology/cli/dsa/testouts/Slideviewer_Regional_Annotations_123.json"
+    output_file = "tests/luna_pathology/cli/dsa/testouts/Slideviewer_Regional_Annotations_123.json"
     assert os.path.exists(output_file)
     # cleanup
     os.remove(output_file)
@@ -54,10 +54,10 @@ def test_heatmap():
     runner = CliRunner()
     result = runner.invoke(cli,
                            ["-s", "heatmap",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/heatmap_config.json"])
+                            "-d","tests/luna_pathology/cli/dsa/testdata/heatmap_config.json"])
 
     assert result.exit_code == 0
-    output_file = "tests/data_processing/pathology/cli/dsa/testouts/otsu_score_test_123.json"
+    output_file = "tests/luna_pathology/cli/dsa/testouts/otsu_score_test_123.json"
     assert os.path.exists(output_file)
     # cleanup
     os.remove(output_file)
@@ -67,11 +67,11 @@ def test_qupath_polygon():
     runner = CliRunner()
     result = runner.invoke(cli,
                            ["-s", "qupath-polygon",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/qupath_polygon.json"])
+                            "-d","tests/luna_pathology/cli/dsa/testdata/qupath_polygon.json"])
 
     print(result.exc_info)
     assert result.exit_code == 0
-    output_file = "tests/data_processing/pathology/cli/dsa/testouts/Qupath_Pixel_Classifier_Polygons_123.json"
+    output_file = "tests/luna_pathology/cli/dsa/testouts/Qupath_Pixel_Classifier_Polygons_123.json"
     assert os.path.exists(output_file)
     # cleanup
     os.remove(output_file)
@@ -85,7 +85,7 @@ def test_upload(requests_mock):
 
     runner = CliRunner()
     result = runner.invoke(upload,
-                           ["-c", "tests/data_processing/pathology/cli/dsa/testdata/dsa_config.json",
-                            "-d","tests/data_processing/pathology/cli/dsa/testdata/bitmask_polygon_upload.json"])
+                           ["-c", "tests/luna_pathology/cli/dsa/testdata/dsa_config.json",
+                            "-d","tests/luna_pathology/cli/dsa/testdata/bitmask_polygon_upload.json"])
 
     assert result.exit_code == 0

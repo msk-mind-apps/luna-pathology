@@ -5,5 +5,5 @@
   "scale_factor": 16,
   "tile_size": 128,
   "magnification": 20,
-  "root_path": "tests/data_processing/pathology/cli/testdata/data/test/slides"
+  "root_path": "tests/luna_pathology/cli/testdata/data/test/slides"
 }
