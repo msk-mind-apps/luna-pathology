@@ -3,7 +3,7 @@ from click.testing import CliRunner
 
 from luna_pathology.cli.visualize_tile_labels import cli
 
-#@todo https://github.com/msk-mind-apps/luna-core/blob/main/luna_core/common/DataStore.py#L17
+#@todo FIX: https://github.com/msk-mind-apps/luna-core/blob/main/luna_core/common/DataStore.py#L17
 # def test_cli():
 #
 #     runner = CliRunner()
