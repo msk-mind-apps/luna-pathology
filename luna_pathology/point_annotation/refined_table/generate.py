@@ -107,7 +107,7 @@ def create_refined_table():
     # populate "date_added", "date_updated","latest", "sv_json_record_uuid"
     spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/EnsureByteContext.py"))
     spark.sparkContext.addPyFile(get_absolute_path(__file__, "../../common/utils.py"))
-    from utils import generate_uuid_dict
+    from luna_core.common.utils import generate_uuid_dict
     geojson_record_uuid_udf = udf(generate_uuid_dict, StringType())
 
     df = df.withColumn("geojson_record_uuid", geojson_record_uuid_udf(to_json("geojson"), array(lit("SVPTGEOJSON"), "labelset")))
