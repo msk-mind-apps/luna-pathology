@@ -3,7 +3,7 @@ Created: February 2021
 @author: aukermaa@mskcc.org
 
 Given a scan (container) ID
-1. load WholeSlideImage object given a delta table path 
+1. load WholeSlideImage object given a delta table path
 
 '''
 
@@ -29,6 +29,18 @@ from luna_core.common.sparksession     import SparkConfig
               help='json parameter file with path to a WSI delta table.')
 
 def cli(app_config, datastore_id, method_param_path):
+    """Load a slide to the datastore from the whole slide image table.
+
+    load_slide -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_param_path (string): path to method parameters including input, output details.
+
+    Returns:
+        None
+    """
     init_logger()
 
     with open(method_param_path) as json_file:
@@ -36,8 +48,15 @@ def cli(app_config, datastore_id, method_param_path):
     load_slide_with_datastore(app_config, datastore_id, method_data)
 
 def load_slide_with_datastore(app_config, datastore_id, method_data):
-    """
-    Using the container API interface, fill scan with original slide from table
+    """Load a slide to the datastore from the whole slide image table.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_data (dict): method parameters including input, output details.
+
+    Returns:
+        None
     """
     logger = logging.getLogger(f"[datastore={datastore_id}]")
 
@@ -46,7 +65,7 @@ def load_slide_with_datastore(app_config, datastore_id, method_data):
     datastore = DataStore_v2(method_data["datastore_path"])
     method_id   = method_data["job_tag"]
 
-    # fetch patient_id column 
+    # fetch patient_id column
     patient_id_column  = method_data.get("patient_id_column_name", None)
     if patient_id_column == "": patient_id_column = None
 
@@ -62,7 +81,7 @@ def load_slide_with_datastore(app_config, datastore_id, method_data):
                 .select("path", "metadata", patient_id_column)\
                 .toPandas()
 
-            if not len(df) == 1: 
+            if not len(df) == 1:
                 print(df)
                 raise ValueError(f"Resulting query record is not singular, multiple scan's exist given the container address {slide_id}")
 
@@ -74,8 +93,8 @@ def load_slide_with_datastore(app_config, datastore_id, method_data):
                 .where(f"UPPER(slide_id)='{slide_id}'")\
                 .select("path", "metadata")\
                 .toPandas()
-            
-            if not len(df) == 1: 
+
+            if not len(df) == 1:
                 print(df)
                 raise ValueError(f"Resulting query record is not singular, multiple scan's exist given the container address {slide_id}")
 
@@ -83,7 +102,7 @@ def load_slide_with_datastore(app_config, datastore_id, method_data):
             properties = record['metadata']
 
         spark.stop()
-        
+
 
     except Exception as e:
         logger.exception (f"{e}, stopping job execution...")
@@ -96,6 +115,6 @@ def load_slide_with_datastore(app_config, datastore_id, method_data):
 
     with open(os.path.join(method_data["datastore_path"], datastore_id, method_id, "WholeSlideImage", "metadata.json"), "w") as fp:
         json.dump(properties, fp)
-    
+
 if __name__ == "__main__":
     cli()

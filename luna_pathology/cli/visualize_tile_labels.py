@@ -42,6 +42,18 @@ from luna_pathology.common.preprocess   import create_tile_thumbnail_image
 @click.option('-m', '--method_param_path', required=True,
               help='json file with parameters for creating a heatmap and optionally pushing the annotation to DSA.')
 def cli(app_config, datastore_id, method_param_path):
+    """Visualize tile scores from inference.
+
+    visualize_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_param_path (string): path to method parameters including input, output details.
+
+    Returns:
+        None
+    """
     init_logger()
 
     with open(method_param_path) as json_file:
@@ -49,8 +61,15 @@ def cli(app_config, datastore_id, method_param_path):
     visualize_tile_labels_with_datastore(app_config, datastore_id, method_data)
 
 def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, method_data: dict):
-    """
-    Using the container API interface, visualize tile-wise scores
+    """Visualize tile scores from inference.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_data (dict): method parameters including input, output details.
+
+    Returns:
+        None
     """
     logger = logging.getLogger(f"[datastore={datastore_id}]")
 
@@ -129,7 +148,7 @@ def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, met
     # Save metadata
     with open(os.path.join(output_dir, "metadata.json"), "w") as fp:
         json.dump(properties, fp)
-        
+
 
 
 if __name__ == "__main__":

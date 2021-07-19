@@ -34,6 +34,20 @@ import pyarrow as pa
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters including input, output details.')
 def cli(app_config, datastore_id, method_param_path):
+    """Collect tiles as a parquet file.
+
+    collect_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
+
+    Save tiles as a parquet file, indexed by slide id, address, and optionally patient_id.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_param_path (string): path to method parameters including input, output details.
+
+    Returns:
+        None
+    """
     init_logger()
 
     with open(method_param_path) as json_file:
@@ -41,8 +55,17 @@ def cli(app_config, datastore_id, method_param_path):
     collect_tile_with_datastore(app_config, datastore_id, method_data)
 
 def collect_tile_with_datastore(app_config: str, datastore_id: str, method_data: dict):
-    """
-    Using the container API interface, visualize tile-wise scores
+    """Save tiles as a parquet file.
+
+    Save tiles as a parquet file, indexed by slide id, address, and optionally patient_id.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_data (dict): method parameters including input, output details.
+
+    Returns:
+        None
     """
     logger = logging.getLogger(f"[datastore={datastore_id}]")
 
@@ -77,7 +100,7 @@ def collect_tile_with_datastore(app_config: str, datastore_id: str, method_data:
 
         if slide_path and 'patient_id' in slide_properties:
             df.loc[:,"patient_id"]   = slide_properties['patient_id']
-            
+
         df.loc[:,"id_slide_container"] = datastore_id
 
         if 'patient_id' in df:
@@ -107,7 +130,7 @@ def collect_tile_with_datastore(app_config: str, datastore_id: str, method_data:
         logger.exception (f"{e}, stopping job execution...")
         raise e
 
-        
+
 
 if __name__ == "__main__":
     cli()

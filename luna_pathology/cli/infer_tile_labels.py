@@ -40,6 +40,18 @@ from luna_pathology.common.preprocess   import run_model
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters for loading a saved model.')
 def cli(app_config, datastore_id, method_param_path):
+    """Infer tile labels with a trained model.
+
+    infer_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_param_path (string): path to method parameters including input, output details.
+
+    Returns:
+        None
+    """
     init_logger()
 
     with open(method_param_path) as json_file:
@@ -47,8 +59,15 @@ def cli(app_config, datastore_id, method_param_path):
     infer_tile_labels_with_datastore(app_config, datastore_id, method_data)
 
 def infer_tile_labels_with_datastore(app_config: str, datastore_id: str, method_data: dict):
-    """
-    Using the container API interface, score and generate tile addresses
+    """Infer tile labels with a trained model.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_data (dict): method parameters including input, output details.
+
+    Returns:
+        None
     """
     logger = logging.getLogger(f"[datastore={datastore_id}]")
 

@@ -38,6 +38,18 @@ from luna_pathology.common.preprocess   import pretile_scoring
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters for tile generation and filtering.')
 def cli(app_config, datastore_id, method_param_path):
+    """Generate tile addresses, scores and optionally annotation labels.
+
+    generate_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_param_path (string): path to method parameters including input, output details.
+
+    Returns:
+        None
+    """
     init_logger()
 
     with open(method_param_path) as json_file:
@@ -45,8 +57,15 @@ def cli(app_config, datastore_id, method_param_path):
     generate_tile_labels_with_datastore(app_config, datastore_id, method_data)
 
 def generate_tile_labels_with_datastore(app_config: str, datastore_id: str, method_data: dict):
-    """
-    Using the container API interface, score and generate tile addresses
+    """Generate tile addresses, scores and optionally annotation labels.
+
+    Args:
+        app_config (string): path to application configuration file.
+        datastore_id (string): datastore name. usually a slide id.
+        method_data (dict): method parameters including input, output details.
+
+    Returns:
+        None
     """
     logger = logging.getLogger(f"[datastore={datastore_id}]")
 
