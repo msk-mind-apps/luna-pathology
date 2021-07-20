@@ -38,6 +38,8 @@ def cli(config, data_config):
 def upload_annotation_to_dsa(annotation_filepath, image_filename, collection_name, uri, token):
     """Upload annotation to DSA
 
+    Upload json annotation file as a new annotation to the image in the DSA collection.
+
     Args:
         annotation_filepath (string): path to a DSA compatible annotation json file
         image_filename (string): name of the image in DSA e.g. 123.svs
