@@ -28,6 +28,9 @@ cli.extract\_slide\_texture\_features module
    :undoc-members:
    :show-inheritance:
 
+   .. automethod:: cli.extract_slide_texture_features.extract_slide_texture_features(index, output_segment, slide_path, halo_roi_path, method_data)
+
+
 cli.generate\_tile\_labels module
 ---------------------------------
 

@@ -1,72 +1,49 @@
-cli package
-===========
+CLIs
+====
 
-Subpackages
+Luna Pathology CLIs are installed as binaries as part of the installation.
+Please see the documentation of the CLIs on this page.
+For more details, please checkout our <link-to-tutorials>.
+
+
+Tiling CLIs
 -----------
 
-.. toctree::
-   :maxdepth: 4
+As a whole slide image is too large for deep learning model training, a slide is often divded into a set of small tiles, and used for training.
+For tile-based whole slide image analysis, generating tiles and labels is an important and laborious step.
+With Luna tiling CLIs and tutorials, you can easily generate tile labels and get your data ready for downstream analysis.
 
-   cli.dsa
+.. click:: cli.load_slide:cli
+   :prog: load_slide
+   :nested: full
 
-Submodules
-----------
+.. click:: cli.generate_tile_labels:cli
+   :prog: generate_tiles
+   :nested: full
 
-cli.collect\_tile\_segment module
----------------------------------
+.. click:: cli.collect_tile_segment:cli
+   :prog: collect_tiles
+   :nested: full
 
-.. automodule:: cli.collect_tile_segment
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. click:: cli.infer_tile_labels:cli
+   :prog: infer_tiles
+   :nested: full
 
-cli.extract\_slide\_texture\_features module
---------------------------------------------
+.. click:: cli.visualize_tile_labels:cli
+   :prog: visualize_tiles
+   :nested: full
 
-.. automodule:: cli.extract_slide_texture_features
-   :members:
-   :undoc-members:
-   :show-inheritance:
+DSA CLIs
+--------
 
-   .. automethod:: cli.extract_slide_texture_features.extract_slide_texture_features(index, output_segment, slide_path, halo_roi_path, method_data)
+Digital Slide Archive (DSA) is a platform where you can manage your pathology images and annotations.
+DSA also provides APIs that we use to push model results to the platform.
+A set of CLIs are available to help you convert your pathologist or model-generated annotations and push them to DSA.
 
+.. click:: cli.dsa.dsa_upload:cli
+   :prog: dsa_upload
+   :nested: full
 
-cli.generate\_tile\_labels module
----------------------------------
-
-.. automodule:: cli.generate_tile_labels
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-cli.infer\_tile\_labels module
-------------------------------
-
-.. automodule:: cli.infer_tile_labels
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-cli.load\_slide module
-----------------------
-
-.. automodule:: cli.load_slide
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-cli.visualize\_tile\_labels module
-----------------------------------
-
-.. automodule:: cli.visualize_tile_labels
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: cli
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. click:: cli.dsa.dsa_viz:cli
+   :prog: dsa_viz
+   :nested: full

@@ -8,6 +8,7 @@ Welcome to luna-pathology's documentation!
    readme
    installation
    usage
+   path-cli
    modules
    contributing
    authors
