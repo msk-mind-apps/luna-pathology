@@ -12,20 +12,7 @@ from luna_pathology.cli.dsa.dsa_api_handler import get_item_uuid, push_annotatio
               required=True,
               type=click.Path(exists=True))
 def cli(config, data_config):
-    """DSA Annotation Upload CLI
-
-    dsa_upload -c [path/to/config] -d [path/to/data_config]
-
-    For example configuration files, please see `examples/example_dsa_api_config.json` and
-    `examples/example_dsa_upload_config.json`.
-
-    Args:
-        config (string): path to your application config file that includes DSA instance details.
-        data_config (string): path to your data config file that includes input/output parameters.
-
-    Returns:
-        None
-    """
+    """DSA Annotation Upload CLI"""
     with open(config) as config_json:
         dsa_config_dict = json.load(config_json)
 

@@ -1,11 +1,3 @@
-'''
-Created: February 2021
-@author: aukermaa@mskcc.org
-
-Given a scan (container) ID
-1. load WholeSlideImage object given a delta table path
-
-'''
 
 # General imports
 import os, json, logging
@@ -29,18 +21,7 @@ from luna_core.common.sparksession     import SparkConfig
               help='json parameter file with path to a WSI delta table.')
 
 def cli(app_config, datastore_id, method_param_path):
-    """Load a slide to the datastore from the whole slide image table.
-
-    load_slide -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
-
-    Args:
-        app_config (string): path to application configuration file.
-        datastore_id (string): datastore name. usually a slide id.
-        method_param_path (string): path to method parameters including input, output details.
-
-    Returns:
-        None
-    """
+    """Load a slide to the datastore from the whole slide image table."""
     init_logger()
 
     with open(method_param_path) as json_file:

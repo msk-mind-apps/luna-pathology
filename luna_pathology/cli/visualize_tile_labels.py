@@ -1,24 +1,3 @@
-'''
-Created: February 2021
-@author: aukermaa@mskcc.org
-
-Given a slide (container) ID
-1. resolve the path to the WSI image
-2. perform various scoring and labeling to tiles
-3. save tiles as a csv with schema [address, coordinates, *scores, *labels ]
-
-Example:
-python3 -m luna_pathology.cli.visualize_tile_labels \
-    -c TCGA-BRCA \
-    -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m luna_pathology/cli/example_visualize_tile_labels.json
-
-Example with annotation:
-python3 -m luna_pathology.cli.visualize_tile_labels \
-        -c ov-path-druv  \
-        -s 226871 \
-        -m luna_pathology/cli/example_visualize_tile_labels.json
-'''
 
 # General imports
 import os, json, logging, pathlib
@@ -42,18 +21,7 @@ from luna_pathology.common.preprocess   import create_tile_thumbnail_image
 @click.option('-m', '--method_param_path', required=True,
               help='json file with parameters for creating a heatmap and optionally pushing the annotation to DSA.')
 def cli(app_config, datastore_id, method_param_path):
-    """Visualize tile scores from inference.
-
-    visualize_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
-
-    Args:
-        app_config (string): path to application configuration file.
-        datastore_id (string): datastore name. usually a slide id.
-        method_param_path (string): path to method parameters including input, output details.
-
-    Returns:
-        None
-    """
+    """Visualize tile scores from inference."""
     init_logger()
 
     with open(method_param_path) as json_file:

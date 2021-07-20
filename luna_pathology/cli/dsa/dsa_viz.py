@@ -81,20 +81,7 @@ def save_dsa_annotation(base_annotation, elements, annotation_name, output_folde
                supports stardist-polygon, stardist-cell, regional-polygon, qupath-polygon, bitmask-polygon, heatmap",
               required=True)
 def cli(data_config, source_type):
-    """DSA annotation builder
-
-    dsa_viz -d [path/to/data_config] -s [source_type]
-
-    For example configuration files, please checkout the `examples` folder.
-
-    Args:
-        data_config (string): path to your data config file that includes input/output parameters.
-        source_type (string): data source that is to be transformed into a dsa json.
-            supports stardist-polygon, stardist-cell, regional-polygon, qupath-polygon, bitmask-polygon, heatmap
-
-    Returns:
-        None
-    """
+    """DSA annotation builder"""
     functions = {"stardist-polygon": stardist_polygon,
                 "stardist-cell": stardist_cell,
                 "regional-polygon": regional_polygon,

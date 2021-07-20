@@ -1,22 +1,3 @@
-'''
-Created: February 2021
-@author: aukermaa@mskcc.org
-
-Given a slide (container) ID
-1. resolve the path to the WSI image
-2. perform various scoring and labeling to tiles
-3. save tiles as a csv with schema [address, coordinates, *scores, *labels ]
-
-Example:
-python3 -m luna_pathology.cli.generate_tile_labels \
-    -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m luna_pathology/cli/examples/generate_tile_labels.json
-
-Example with annotation:
-python3 -m luna_pathology.cli.generate_tile_labels \
-    -s tcga-gm-a2db-01z-00-dx1.9ee36aa6-2594-44c7-b05c-91a0aec7e511 \
-    -m luna_pathology/cli/examples/generate_tile_labels_with_ov_labels.json
-'''
 
 # General imports
 import os, json, logging
@@ -38,18 +19,7 @@ from luna_pathology.common.preprocess   import pretile_scoring
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters for tile generation and filtering.')
 def cli(app_config, datastore_id, method_param_path):
-    """Generate tile addresses, scores and optionally annotation labels.
-
-    generate_tiles -a [path/to/app_config] -s [slide_id] -m [path/to/app_config]
-
-    Args:
-        app_config (string): path to application configuration file.
-        datastore_id (string): datastore name. usually a slide id.
-        method_param_path (string): path to method parameters including input, output details.
-
-    Returns:
-        None
-    """
+    """Generate tile addresses, scores and optionally annotation labels."""
     init_logger()
 
     with open(method_param_path) as json_file:
