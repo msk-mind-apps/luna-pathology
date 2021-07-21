@@ -21,7 +21,34 @@ from luna_pathology.common.preprocess   import create_tile_thumbnail_image
 @click.option('-m', '--method_param_path', required=True,
               help='json file with parameters for creating a heatmap and optionally pushing the annotation to DSA.')
 def cli(app_config, datastore_id, method_param_path):
-    """Visualize tile scores from inference."""
+    """Visualize tile scores from inference.
+
+    app_config - application configuration yaml file. See config.yaml.template for details.
+
+    datastore_id - datastore name. usually a slide id.
+
+    method_param_path - json file with parameters for creating a heatmap and optionally pushing the annotation to DSA.
+
+    - input_wsi_tag: job tag used in loading the whole slide image
+
+    - input_label_tag: job tag used in generating tile labels
+
+    - job_tag: job tag for this visualization
+
+    - scale_factor: scale for generation of thumbnails, e.g. 8 will generate a thumbnail scaled at 1/8 of the wsi.
+
+    - tile_size: requested tile size
+
+    - magnification: requested magnification of the slide
+
+    - dsa_config: map of DSA instance details. e.g. {
+          "host": "localhost",
+          "port": "8080",
+          "token": "abc123"
+        }
+
+    - root_path: path to output directory
+    """
     init_logger()
 
     with open(method_param_path) as json_file:

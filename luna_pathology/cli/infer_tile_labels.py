@@ -18,7 +18,27 @@ from luna_pathology.common.preprocess   import run_model
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters for loading a saved model.')
 def cli(app_config, datastore_id, method_param_path):
-    """Infer tile labels with a trained model."""
+    """Infer tile labels with a trained model.
+
+    app_config - application configuration yaml file. See config.yaml.template for details.
+
+    datastore_id - datastore name. usually a slide id.
+
+    method_param_path - json file with method parameters for loading a saved model.
+
+    - input_label_tag: job tag used to generate tile labels
+
+    - job_tag: job tag for the inference
+
+    - model_package: package to load your model e.g. luna_pathology.models.ov_tissuenet
+
+    - model: model details e.g. {
+          "checkpoint_path": "/path/to/checkpoint",
+          "n_classes": 4
+      }
+
+    - root_path: path to output directory
+    """
     init_logger()
 
     with open(method_param_path) as json_file:

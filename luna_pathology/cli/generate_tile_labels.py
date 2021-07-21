@@ -19,7 +19,36 @@ from luna_pathology.common.preprocess   import pretile_scoring
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters for tile generation and filtering.')
 def cli(app_config, datastore_id, method_param_path):
-    """Generate tile addresses, scores and optionally annotation labels."""
+    """Generate tile addresses, scores and optionally annotation labels.
+
+    app_config - application configuration yaml file. See config.yaml.template for details.
+
+    datastore_id - datastore name. usually a slide id.
+
+    method_param_path - json file with method parameters for tile generation and filtering.
+
+    - input_wsi_tag: job tag used to load slides
+
+    - job_tag: job tag for generating tile labels
+
+    - tile_size: size of patches
+
+    - scale_factor: desired downscale factor
+
+    - magnification: desired magnification
+
+    - root_path: path to output data
+
+    - filter: optional filter map to select subset of the tiles e.g. {
+        "otsu_score": 0.5
+      }
+
+    - project_id: optional project id, if using regional annotations
+
+    - labelset: optional annotation labelset name, if using regional annotations
+
+    - annotation_table_path: optional path to the regional annotation table
+    """
     init_logger()
 
     with open(method_param_path) as json_file:

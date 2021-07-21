@@ -10,8 +10,8 @@ def get_color(name, line_colors={}, fill_colors={}, alpha = 100):
 
     Args:
         name (string): feature name e.g. Stroma, Tumor
-        line_colors (dict, optional): user-provided line color map with {feature name:rgb values}
-        fill_colors (dict, optional): user-provided fill color map with {feature name:rgba values}
+        line_colors (dict, optional): line color map with {feature name:rgb values}
+        fill_colors (dict, optional): fill color map with {feature name:rgba values}
         alpha (int, optional): alpha value for the fill color. 100 by default
 
     Returns:

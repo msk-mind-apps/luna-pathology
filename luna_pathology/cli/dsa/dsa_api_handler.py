@@ -10,7 +10,7 @@ def get_collection_uuid(uri, token, collection_name):
     """Returns the DSA collection uuid from the provided `collection_name`
 
     Args:
-        uri (string): DSA host e.g. localhost
+        uri (string): DSA host:port e.g. localhost:8080
         token (string): DSA token from /token/current HistomicsUI API
         collection_name (string): name of the collection in DSA
 
@@ -40,7 +40,7 @@ def get_item_uuid(image_name, uri, token, collection_name):
 
     Args:
         image_name (string): name of the image in DSA e.g. 123.svs
-        uri (string): DSA host e.g. localhost
+        uri (string): DSA host:port e.g. localhost:8080
         token (string): DSA token from /token/current HistomicsUI API
         collection_name (string): name of the collection in DSA
 
@@ -75,7 +75,7 @@ def push_annotation_to_dsa_image(item_uuid, dsa_annotation_json, uri, token):
     Args:
         item_uuid (string): DSA item uuid to be tied to the annotation
         dsa_annotation_json (string):
-        uri (string): DSA host e.g. localhost
+        uri (string): DSA host:port e.g. localhost:8080
         token (string): DSA token from /token/current HistomicsUI API
 
     Returns:
@@ -105,7 +105,7 @@ def system_check(uri, token):
     """Check DSA connection with the given host/token
 
     Args:
-        uri (string): DSA host e.g. localhost
+        uri (string): DSA host:port e.g. localhost:8080
         token (string): DSA token from /token/current HistomicsUI API
 
     Returns:

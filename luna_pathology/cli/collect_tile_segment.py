@@ -19,7 +19,22 @@ import pyarrow as pa
 @click.option('-m', '--method_param_path', required=True,
               help='json file with method parameters including input, output details.')
 def cli(app_config, datastore_id, method_param_path):
-    """Save tiles as a parquet file, indexed by slide id, address, and optionally patient_id."""
+    """Save tiles as a parquet file, indexed by slide id, address, and optionally patient_id.
+
+    app_config - application configuration yaml file. See config.yaml.template for details.
+
+    datastore_id - datastore name. usually a slide id.
+
+    method_param_path - json file with method parameters including input, output details.
+
+    - input_label_tag: job tag used for generating tile labels
+
+    - input_wsi_tag: job tag used for loading the slide
+
+    - output_datastore: job tag for collecting tiles
+
+    - root_path: path to output data
+  """
     init_logger()
 
     with open(method_param_path) as json_file:

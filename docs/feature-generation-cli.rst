@@ -1,10 +1,9 @@
-CLIs
-====
+Feature Generation CLIs
+=======================
 
-Luna Pathology CLIs are installed as binaries as part of the installation.
+Luna Pathology feature generation CLIs are installed as binaries as part of the installation.
 Please see the documentation of the CLIs on this page.
 For more details, please checkout our <link-to-tutorials>.
-
 
 Tiling CLIs
 -----------

@@ -21,7 +21,20 @@ from luna_core.common.sparksession     import SparkConfig
               help='json parameter file with path to a WSI delta table.')
 
 def cli(app_config, datastore_id, method_param_path):
-    """Load a slide to the datastore from the whole slide image table."""
+    """Load a slide to the datastore from the whole slide image table.
+
+    app_config - application configuration yaml file. See config.yaml.template for details.
+
+    datastore_id - datastore name. usually a slide id.
+
+    method_param_path - json parameter file with path to a WSI delta table.
+
+    - job_tag: job tag to use for loading the slide
+
+    - table_path: path to the whole slide image table
+
+    - datastore_path: path to store data
+    """
     init_logger()
 
     with open(method_param_path) as json_file:

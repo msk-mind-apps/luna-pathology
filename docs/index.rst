@@ -8,7 +8,7 @@ Welcome to luna-pathology's documentation!
    readme
    installation
    usage
-   path-cli
+   feature-generation-cli
    modules
    contributing
    authors

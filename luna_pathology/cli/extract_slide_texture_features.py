@@ -18,7 +18,8 @@ def extract_slide_texture_features(index, output_segment, slide_path, halo_roi_p
         output_segment (string): path to write result parquet
         slide_path (string): path to the whole slide image
         halo_roi_path (string): path to halo roi path
-        method_data (dict): method parameters with annotation and tile details
+        method_data (dict): method parameters with annotation and tile details 
+            including annotationLabel, stainChannel and tileSize
 
     Returns:
         tuple: path to features saved as a np.array & path to feature metadata saved as a parquet.
@@ -59,7 +60,12 @@ def extract_slide_texture_features(index, output_segment, slide_path, halo_roi_p
             address = f"{index}_{x}_{y}"
 
             try:
-                texture_values = extract_patch_texture_features(address, img_patch, mask_patch, stain_vectors=vectors, stain_channel=stain_channel, glcm_feature='original_glcm_ClusterTendency')
+                texture_values = extract_patch_texture_features(address,
+                                                                img_patch,
+                                                                mask_patch,
+                                                                stain_vectors=vectors,
+                                                                stain_channel=stain_channel,
+                                                                glcm_feature='original_glcm_ClusterTendency')
 
                 if not texture_values is None:
                     features = np.append(features, texture_values)
