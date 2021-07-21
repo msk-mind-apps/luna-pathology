@@ -1,7 +1,7 @@
-Modules
-=======
+luna_pathology
+==============
 
 .. toctree::
    :maxdepth: 4
 
-   cli
+   luna_pathology
