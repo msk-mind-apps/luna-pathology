@@ -5,6 +5,5 @@
   "annotation_name": "tile-based heatmap",
   "column": "otsu_score",
   "tile_size": 128,
-  "full_resolution_magnification": 20,
-  "tile_magnification": 20
+  "scale_factor": 1
 }

@@ -1,5 +1,5 @@
 Welcome to luna-pathology's documentation!
-======================================
+==========================================
 
 .. toctree::
    :maxdepth: 2
@@ -8,6 +8,7 @@ Welcome to luna-pathology's documentation!
    readme
    installation
    usage
+   feature-generation-cli
    modules
    contributing
    authors

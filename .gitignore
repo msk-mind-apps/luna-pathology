@@ -1,4 +1,3 @@
 .idea
 venv
-luna_pathology/__pycache__/
-tests/__pycache__/
+__pycache__
