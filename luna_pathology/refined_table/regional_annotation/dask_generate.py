@@ -26,11 +26,13 @@ def cli(data_config_file, app_config_file):
     """This module generates parquets with regional annotation pathology data
 
     INPUT PARAMETERS
+
     app_config_file - path to yaml file containing application runtime parameters. See config.yaml.template
 
     data_config_file - path to yaml file containing data input and output parameters. See dask_data_config.yaml.template
 
     TABLE SCHEMA
+
     - sv_project_id: project number in slide viewer
 
     - slideviewer_path: slide path based on slideviewer organization

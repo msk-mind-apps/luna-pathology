@@ -52,6 +52,7 @@ def cli(data_config_file, app_config_file):
     to persist the metadata used to generate the proxy table.
 
     INPUT PARAMETERS
+
     app_config_file - path to yaml file containing application runtime parameters. See config.yaml.template
 
     data_config_file - path to yaml file containing data input and output parameters. See data_config.yaml.template
@@ -73,6 +74,7 @@ def cli(data_config_file, app_config_file):
     - USE_ALL_LABELSETS: True to generate geojsons for all of LABEL_SETS. False to generate geojsons for USE_LABELSET
 
     TABLE SCHEMA
+
     - sv_project_id: same as the PROJECT_ID from point annotation proxy data_config_file, refers to the SlideViewer project number.
 
     - slideviewer_path: path to original slide image in slideviewer platform

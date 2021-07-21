@@ -56,6 +56,7 @@ def cli(data_config_file, app_config_file):
     to persist the metadata used to generate the proxy table.
 
     INPUT PARAMETERS
+
     app_config_file - path to yaml file containing application runtime parameters. See config.yaml.template
 
     data_config_file - path to yaml file containing data input and output parameters. See data_config.yaml.template
@@ -77,6 +78,7 @@ def cli(data_config_file, app_config_file):
     If this field is left blank, then the regional annotation proxy table generator will download this file from SlideViewer.
 
     TABLE SCHEMA
+
     - slideviewer_path: path to original slide image in slideviewer platform
 
     - slide_id: id for the slide. synonymous with image_id

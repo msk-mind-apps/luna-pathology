@@ -98,6 +98,7 @@ def cli(data_config_file, app_config_file, process_string):
     to persist the metadata used to generate the proxy table.
 
     INPUT PARAMETERS
+
     app_config_file - path to yaml file containing application runtime parameters. See config.yaml.template
 
     data_config_file - path to yaml file containing data input and output parameters. See data_config.yaml.template
@@ -105,6 +106,7 @@ def cli(data_config_file, app_config_file, process_string):
     process_string - comma separated list of processes to run or replay: e.g. transfer,delta,graph, or all
 
     TABLE SCHEMA
+
     - slide_id: slide id extracted from the filename. primary id for the table
 
     - path: path to WSI file
