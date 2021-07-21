@@ -8,6 +8,7 @@ Welcome to luna-pathology's documentation!
    readme
    installation
    usage
+   data-eng-cli
    feature-generation-cli
    modules
    contributing
