@@ -2,7 +2,7 @@ import shutil
 import click
 import yaml, os, json
 from datetime import datetime
-from typing import Union
+from typing import Union, Tuple, List
 import logging
 
 from luna_core.common.CodeTimer import CodeTimer
@@ -47,8 +47,8 @@ TIMEOUT_SECONDS = 1800
 
 logger = logging.getLogger(__name__)
 
-def get_slide_bitmap(full_filenamei:str, user:str, slide_id:str, SLIDE_BMP_DIR:str,
-        SLIDEVIEWER_API_URL:str, TMP_ZIP_DIR:str, sv_project_id:str) -> tuple[str, str]:
+def get_slide_bitmap(full_filename:str, user:str, slide_id:str, SLIDE_BMP_DIR:str,
+        SLIDEVIEWER_API_URL:str, TMP_ZIP_DIR:str, sv_project_id:str) -> Tuple[str, str]:
     """get slide bitmap
 
     Args:
@@ -60,7 +60,7 @@ def get_slide_bitmap(full_filenamei:str, user:str, slide_id:str, SLIDE_BMP_DIR:s
         sv_project_id (str): slide viewer project id
 
     Returns:
-        tuple[str, str]: a tuple of the bitmap record uuid and filepath to saved bitmap
+        Tuple[str, str]: a tuple of the bitmap record uuid and filepath to saved bitmap
     """
 
     full_filename_without_ext = full_filename.replace(".svs", "")
@@ -147,21 +147,21 @@ def convert_bmp_to_npy(bmp_file:str, output_folder:str)->str:
 
 
 def check_slideviewer_and_download_bmp(sv_project_id:str, slideviewer_path:str,
-        slide_id:str, users:list, SLIDE_BMP_DIR:str, SLIDEVIEWER_API_URL:str,
-        TMP_ZIP_DIR:str) -> Union[None, list]:
+        slide_id:str, users:List, SLIDE_BMP_DIR:str, SLIDEVIEWER_API_URL:str,
+        TMP_ZIP_DIR:str) -> Union[None, List]:
     """download bitmap annotation from slideviwer
 
     Args:
         sv_project_id (str): slideviewer project id
         slideviewer_path (str): filepath to the input slide
         slide_id (str): slide id
-        users (list[str]): list of users who provided annotations
+        users (List[str]): list of users who provided annotations
         SLIDE_BMP_DIR (str): output folder to save bitmap to
         SLIDEVIEWER_API_URL (str): API url for slide viewer
         TMP_ZIP_DIR (str) temporary directory to save ziped bitmap files to
 
     Returns:
-        Union[None, list]: returns none if there are no annotations to process, or
+        Union[None, List]: returns none if there are no annotations to process, or
             returns a list containing output parameters
     """
     slide_id = str(slide_id)
@@ -197,19 +197,19 @@ def check_slideviewer_and_download_bmp(sv_project_id:str, slideviewer_path:str,
         return outputs
 
 
-def convert_slide_bitmap_to_geojson(outputs, all_labelsets:list[dict],
-        contour_level:float, SLIDE_NPY_DIR:str, slide_store_dir:str) -> tuple[str, list]:
+def convert_slide_bitmap_to_geojson(outputs, all_labelsets:List[dict],
+        contour_level:float, SLIDE_NPY_DIR:str, slide_store_dir:str) -> Tuple[str, List]:
     """convert slide bitmap to geoJSON
 
     Args:
-        outputs (list[dict]): list of output parameter dict
-        all_labelsets (list[dict]): a list of dictionaries containing label sets
+        outputs (List[dict]): list of output parameter dict
+        all_labelsets (List[dict]): a list of dictionaries containing label sets
         contour_level (float): value along which to find contours
         SLIDE_NPY_DIR (str): directory containing the slide saved as a .npy
         slide_store_dir (str): directory of the datastore
 
     Returns:
-        Tuple[str, list]: a pair of slide id and output geojson tables
+        Tuple[str, List]: a pair of slide id and output geojson tables
     """
     outputs = copy.deepcopy(outputs)
     try:
