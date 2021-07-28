@@ -8,7 +8,7 @@ Various utility and processing methods for pathology
 
 import os, itertools, logging, re
 
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 import numpy  as np
 import pandas as pd
 import seaborn as sns
@@ -145,7 +145,7 @@ def get_full_resolution_generator(slide: openslide.OpenSlide, tile_size:int) -> 
     return generator, generator_level
 
 # USED -> generate cli
-def get_otsu_scores(address_raster:list, otsu_img:np.ndarray, otsu_tile_size:int) -> list[float]:
+def get_otsu_scores(address_raster:list, otsu_img:np.ndarray, otsu_tile_size:int) -> List[float]:
     """compute otsu score
 
     otsu thresholds a single tile and computes the mean value to yield a scalar score
@@ -168,7 +168,7 @@ def get_otsu_scores(address_raster:list, otsu_img:np.ndarray, otsu_tile_size:int
     return otsu_score_results
 
 # USED -> generate cli
-def get_purple_scores(address_raster:list, rgb_img:np.ndarray, rgb_tile_size:int) -> list[float]:
+def get_purple_scores(address_raster:list, rgb_img:np.ndarray, rgb_tile_size:int) -> List[float]:
     """compute purple score 
 
     computes the purple score for tiles in a slide 

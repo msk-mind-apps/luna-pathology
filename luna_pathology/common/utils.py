@@ -3,6 +3,7 @@
 from   luna_core.common.config import ConfigSet
 import luna_core.common.constants as const
 
+from Typing import Tuple, List
 import xml.etree.ElementTree as et
 import numpy as np
 import cv2
@@ -103,7 +104,7 @@ def convert_xml_to_mask(xml_fn: str, shape:list, annotation_name:str) -> np.ndar
     return ret
 
 
-def convert_halo_xml_to_roi(xml_fn:str) -> tuple[list, list]:
+def convert_halo_xml_to_roi(xml_fn:str) -> Tuple[List, List]:
     """get roi from halo XML file
 
     Read the rectangle ROI of a halo XML annotation file 
@@ -135,7 +136,7 @@ def convert_halo_xml_to_roi(xml_fn:str) -> tuple[list, list]:
     return xlist, ylist
 
 def get_slide_roi_masks(slide_path, halo_roi_path, annotation_name, slide_id:str=None,
-        output_dir:str=None):
+        output_dir:str=None) -> Tuple[np.ndarray, np.ndarray, np.ndarray]: 
     """get roi masks from slides 
 
     Given a slide, halo annotation xml file, generate labels from xml polygons, 
@@ -225,7 +226,8 @@ def pull_stain_channel(patch:np.ndarray, vectors:np.ndarray, channel:int=0)->np.
     return tmp[:,:,channel]
 
 
-def extract_patch_texture_features(address, image_patch, mask_patch, stain_vectors, stain_channel, glcm_feature, plot=False):
+def extract_patch_texture_features(address, image_patch, mask_patch, stain_vectors,
+        stain_channel, glcm_feature, plot=False) -> np.ndarray:
     """extact patch texture features
 
     Runs patch-wise extraction from an image_patch, mask_patch pair given a stain
