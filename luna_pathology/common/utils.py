@@ -3,7 +3,7 @@
 from   luna_core.common.config import ConfigSet
 import luna_core.common.constants as const
 
-from Typing import Tuple, List
+from typing import Tuple, List
 import xml.etree.ElementTree as et
 import numpy as np
 import cv2

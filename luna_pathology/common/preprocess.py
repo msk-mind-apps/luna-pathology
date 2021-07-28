@@ -8,7 +8,7 @@ Various utility and processing methods for pathology
 
 import os, itertools, logging, re
 
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Dict
 import numpy  as np
 import pandas as pd
 import seaborn as sns
@@ -266,7 +266,7 @@ def make_otsu(img: np.ndarray, scale:int=1) -> np.ndarray:
     threshold = threshold_otsu(_img)
     return (_img < (threshold * scale)).astype(float)
 
-def build_shapely_polygons_from_geojson(annotation_geojson:dict[str, any])-> Tuple[list,
+def build_shapely_polygons_from_geojson(annotation_geojson:Dict[str, any])-> Tuple[list,
         list]:
     """Build shapely polygons from geojson
 
