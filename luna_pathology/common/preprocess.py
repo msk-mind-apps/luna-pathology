@@ -197,7 +197,7 @@ def get_purple_scores(address_raster:list, rgb_img:np.ndarray, rgb_tile_size:int
     return purple_score_results
 
 # USED -> utils
-def coord_to_address(s:tuple[int, int], magnification:int)->str:
+def coord_to_address(s:Tuple[int, int], magnification:int)->str:
     """converts coordinate to address
 
     Args:

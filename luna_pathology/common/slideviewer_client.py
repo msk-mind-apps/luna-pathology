@@ -6,6 +6,7 @@ Created on January 31, 2021
 Functions for downloading annotations from SlideViewer
 '''
 import os, shutil
+from typing import Dict
 import zipfile
 import requests
 import logging
@@ -126,7 +127,7 @@ def unzip(zipfile_path:str) -> any:
         return None
 
 
-def download_sv_point_annotation(url:str) -> dict[str, any]:
+def download_sv_point_annotation(url:str) -> Dict[str, any]:
     """download slideviwer point annotation
 
     Calls slideviewer API with the given url
