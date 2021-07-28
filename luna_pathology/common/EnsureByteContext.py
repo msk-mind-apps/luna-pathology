@@ -1,8 +1,8 @@
-'''
+"""
 Created on November 04, 2020
 
 @author: aukermaa@mskcc.org
-'''
+"""
 class EnsureByteContext(object):
     def __enter__(self):
         # Re-import modules 

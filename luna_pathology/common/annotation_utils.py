@@ -2,6 +2,7 @@ import shutil
 import click
 import yaml, os, json
 from datetime import datetime
+from typing import Union
 import logging
 
 from luna_core.common.CodeTimer import CodeTimer
@@ -46,7 +47,21 @@ TIMEOUT_SECONDS = 1800
 
 logger = logging.getLogger(__name__)
 
-def get_slide_bitmap(full_filename, user, slide_id, SLIDE_BMP_DIR, SLIDEVIEWER_API_URL, TMP_ZIP_DIR, sv_project_id):
+def get_slide_bitmap(full_filenamei:str, user:str, slide_id:str, SLIDE_BMP_DIR:str,
+        SLIDEVIEWER_API_URL:str, TMP_ZIP_DIR:str, sv_project_id:str) -> tuple[str, str]:
+    """get slide bitmap
+
+    Args:
+        full_filename (str): filename of input slide
+        user (str): name of pathologist/annotater who labled the input slide
+        SLIDE_BMP_DIR (str): output folder to save bitmap to
+        SLIDEVIEWER_API_URL (str): API url for slide viewer
+        TMP_ZIP_DIR (str) temporary directory to save ziped bitmap files to
+        sv_project_id (str): slide viewer project id
+
+    Returns:
+        tuple[str, str]: a tuple of the bitmap record uuid and filepath to saved bitmap
+    """
 
     full_filename_without_ext = full_filename.replace(".svs", "")
 
@@ -97,17 +112,21 @@ def get_slide_bitmap(full_filename, user, slide_id, SLIDE_BMP_DIR, SLIDEVIEWER_A
 
     return (bmp_record_uuid, bmp_filepath)
 
-def convert_bmp_to_npy(bmp_file, output_folder):
-    """
+def convert_bmp_to_npy(bmp_file:str, output_folder:str)->str:
+    """convert bitmap to numpy
+
     Reads a bmp file and creates friendly numpy ndarray file in the uint8 format in the output
     directory specified, with extention .annot.npy
 
     Troubleshooting:
         Make sure Pillow is upgraded to version 8.0.0 if getting an Unsupported BMP Size OS Error
 
-    :param bmp_file - /path/to/image.bmp
-    :param output_folder - /path/to/output/folder
-    :return filepath to file containing numpy array
+    Args:
+        bmp_file (str): path to .bmp image
+        output_folder (str): path to output folder
+
+    Returns
+        str: filepath to file containing numpy array
     """
     Image.MAX_IMAGE_PIXELS = None
 
@@ -127,8 +146,24 @@ def convert_bmp_to_npy(bmp_file, output_folder):
     return output_filepath
 
 
+def check_slideviewer_and_download_bmp(sv_project_id:str, slideviewer_path:str,
+        slide_id:str, users:list, SLIDE_BMP_DIR:str, SLIDEVIEWER_API_URL:str,
+        TMP_ZIP_DIR:str) -> Union[None, list]:
+    """download bitmap annotation from slideviwer
 
-def check_slideviewer_and_download_bmp(sv_project_id, slideviewer_path, slide_id, users, SLIDE_BMP_DIR, SLIDEVIEWER_API_URL, TMP_ZIP_DIR):
+    Args:
+        sv_project_id (str): slideviewer project id
+        slideviewer_path (str): filepath to the input slide
+        slide_id (str): slide id
+        users (list[str]): list of users who provided annotations
+        SLIDE_BMP_DIR (str): output folder to save bitmap to
+        SLIDEVIEWER_API_URL (str): API url for slide viewer
+        TMP_ZIP_DIR (str) temporary directory to save ziped bitmap files to
+
+    Returns:
+        Union[None, list]: returns none if there are no annotations to process, or
+            returns a list containing output parameters
+    """
     slide_id = str(slide_id)
 
     outputs = []
@@ -162,7 +197,20 @@ def check_slideviewer_and_download_bmp(sv_project_id, slideviewer_path, slide_id
         return outputs
 
 
-def convert_slide_bitmap_to_geojson(outputs, all_labelsets, contour_level, SLIDE_NPY_DIR, slide_store_dir):
+def convert_slide_bitmap_to_geojson(outputs, all_labelsets:list[dict],
+        contour_level:float, SLIDE_NPY_DIR:str, slide_store_dir:str) -> tuple[str, list]:
+    """convert slide bitmap to geoJSON
+
+    Args:
+        outputs (list[dict]): list of output parameter dict
+        all_labelsets (list[dict]): a list of dictionaries containing label sets
+        contour_level (float): value along which to find contours
+        SLIDE_NPY_DIR (str): directory containing the slide saved as a .npy
+        slide_store_dir (str): directory of the datastore
+
+    Returns:
+        Tuple[str, list]: a pair of slide id and output geojson tables
+    """
     outputs = copy.deepcopy(outputs)
     try:
         slide_id = outputs[0]['slide_id']
