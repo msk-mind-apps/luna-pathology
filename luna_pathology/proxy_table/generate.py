@@ -29,7 +29,7 @@ import requests
 logger = init_logger()
 
 TRY_S3=False
-SCHEMA_FILE=get_absolute_path(__file__, '../../data_ingestion_template_schema.yml')
+SCHEMA_FILE=get_absolute_path(__file__, 'data_ingestion_template_schema.yml')
 DATA_CFG = 'DATA_CFG'
 APP_CFG = 'APP_CFG'
 
