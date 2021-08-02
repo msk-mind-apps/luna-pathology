@@ -15,6 +15,8 @@ import numpy as np
 
 from dask.distributed import Client, as_completed
 
+logger = init_logger()
+
 @click.command()
 @click.option('-d', '--data_config_file', default=None, type=click.Path(exists=True),
               help="path to yaml file containing data input and output parameters. "
@@ -52,8 +54,6 @@ def cli(data_config_file, app_config_file):
 
     - labelset:
     """
-    logger = init_logger()
-
     # load configs
     cfg = ConfigSet(name='DATA_CFG', config_file=data_config_file)
     cfg = ConfigSet(name='APP_CFG',  config_file=app_config_file)
@@ -70,10 +70,14 @@ def cli(data_config_file, app_config_file):
         shutil.copy(data_config_file, os.path.join(config_location, "data_config.yaml"))
         logger.info("config files copied to %s", config_location)
 
-        exit_code = create_geojson_table()
-        if exit_code != 0:
+        failed = create_geojson_table()
+
+        if failed:
             logger.error("GEOJSON table creation had errors. Exiting.")
-            return
+            logger.error(failed)
+            raise RuntimeError("GEOJSON table creation had errors. Exiting.")
+
+        return
 
 
 def create_geojson_table():
@@ -82,15 +86,14 @@ def create_geojson_table():
     Combines multiple annotations from different users for a slide.
 
     Returns:
-        int: 0
+        list: list of slide ids that failed
     """
-
+    failed = []
     # get application and data config variables
     cfg = ConfigSet()
-
     client = Client(n_workers=25, threads_per_worker=1, memory_limit=0.1)
     client.run(init_logger)
-    print (client)
+    logger.info(client)
 
     SLIDEVIEWER_API_URL     = cfg.get_value('DATA_CFG::SLIDEVIEWER_API_URL')
     SLIDEVIEWER_CSV_FILE    = cfg.get_value('DATA_CFG::SLIDEVIEWER_CSV_FILE')
@@ -104,7 +107,7 @@ def create_geojson_table():
     TABLE_OUT_DIR           = const.TABLE_LOCATION(cfg)
 
     os.makedirs(TABLE_OUT_DIR, exist_ok=True)
-    print ("Table output directory =", TABLE_OUT_DIR)
+    logger.info("Table output directory =", TABLE_OUT_DIR)
 
     # setup variables needed for build geojson UDF
     contour_level       = cfg.get_value('DATA_CFG::CONTOUR_LEVEL')
@@ -137,16 +140,18 @@ def create_geojson_table():
                 slide_id, data = json_future.result()
                 if slide_id and data:
                     result_df = pd.DataFrame(data)
-                    print (result_df)
+                    logger.info(result_df)
                     result_df.drop(columns='geojson').to_parquet(f"{TABLE_OUT_DIR}/regional_annot_slice_slide={slide_id}.parquet")
                 else:
-                    print("Empty geojson returned. this means either this was an empty slide or an error occured during geojson generate")
+                    failed.append(slide_id)
+                    logger.warning("Empty geojson returned. this means either this was an empty slide or an error occured during geojson generate")
         except:
-            print (f"Something was wrong with future {json_future}, skipping.")
+            failed.append(slide_id)
+            logger.warning(f"Something was wrong with future {json_future}, skipping.")
 
     client.shutdown()
 
-    return 0
+    return failed
 
 
 if __name__ == "__main__":

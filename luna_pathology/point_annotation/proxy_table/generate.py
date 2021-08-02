@@ -15,7 +15,8 @@ from luna_core.common.dask import prune_empty_delayed
 # Logging imports
 import logging
 from luna_core.common.custom_logger import init_logger
-logger = init_logger(level=logging.INFO)
+logger = init_logger()
+
 
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 

@@ -5,9 +5,8 @@ import os
 
 from luna_core.common.config import ConfigSet
 from luna_core.common.sparksession import SparkConfig
-from luna_pathology.proxy_table.generate import cli
 import luna_core.common.constants as const
-
+from luna_pathology.proxy_table.generate import cli
 
 proxy_table_path = "tests/luna_pathology/testdata/data/test-project/tables/WSI_dsn"
 landing_path = "tests/luna_pathology/testdata/data"
@@ -28,20 +27,19 @@ def spark(monkeypatch):
     if os.path.exists(proxy_table_path):
         shutil.rmtree(proxy_table_path)
 
-#@todo https://github.com/msk-mind-apps/luna-pathology/blob/master/luna_pathology/proxy_table/generate.py#L32 this path resides in luna_core
-# def test_cli(spark):
-#
-#     runner = CliRunner()
-#     result = runner.invoke(cli,
-#         ['-d', 'tests/luna_pathology/proxy_table/data.yaml',
-#         '-a', 'tests/test_config.yaml',
-#         '-p', 'delta'])
-#
-#     assert result.exit_code == 0
-#
-#     assert os.path.exists(app_config_path)
-#     assert os.path.exists(data_config_path)
-#
-#     df = spark.read.format("delta").load(proxy_table_path)
-#     assert df.count() == 1
-#     df.unpersist()
+def test_cli(spark):
+
+    runner = CliRunner()
+    result = runner.invoke(cli,
+        ['-d', 'tests/luna_pathology/proxy_table/data.yaml',
+        '-a', 'tests/test_config.yaml',
+        '-p', 'delta'])
+
+    assert result.exit_code == 0
+
+    assert os.path.exists(app_config_path)
+    assert os.path.exists(data_config_path)
+
+    df = spark.read.format("delta").load(proxy_table_path)
+    assert df.count() == 1
+    df.unpersist()

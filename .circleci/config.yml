@@ -23,12 +23,13 @@ jobs:
       - run: which java
       - run: echo "export PATH=/home/circleci/.local/bin:$PATH" >> $BASH_ENV  # some python packages get installed  here
       - run: echo "export CODECOV_TOKEN="a5ea6162-7800-42e5-ae23-86298340c7ea"" >> $BASH_ENV
+      - run: echo "export LUNA_HOME=tests/luna_pathology/testdata" >> $BASH_ENV
       - run: export PYSPARK_PYTHON=`which python`
       - run: echo $PATH
       - run: python --version
       - run: sudo pip install --upgrade pip
       - run: pip --version
-      - run: sudo pip install -r requirements_dev.txt
+      - run: sudo pip install .
       - run: pip list
       - run: pip check
       - run: sudo python setup.py install  # needed to run the cli unit tests
