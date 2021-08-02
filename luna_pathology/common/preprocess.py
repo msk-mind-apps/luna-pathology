@@ -261,7 +261,7 @@ def pretile_scoring(slide_file_path: str, output_dir: str, annotation_table_path
     to_mag_scale_factor and to_thumbnail_scale_factor both need to be event integers, i.e. the scale factors are multiples of the the scanned magnficiation
     """
     requested_tile_size       = params.get("tile_size")
-    requested_magnification   = params.get("magnification")
+    requested_magnification   = params.get("requested_magnification")
 
     # optional arguments related to slideviewer annotations
     project_id               = params.get("project_id", None)
@@ -459,7 +459,7 @@ def run_model(pil_file_path: str, csv_file_path: str, output_dir: str, params: d
 def create_tile_thumbnail_image(slide_file_path: str, scores_file_path: str, output_dir: str, params: dict):
 
     requested_tile_size       = params.get("tile_size")
-    requested_magnification   = params.get("magnification")
+    requested_magnification   = params.get("requested_magnification")
 
     logger.info("Processing slide %s", slide_file_path)
     logger.info("Params = %s", params)
