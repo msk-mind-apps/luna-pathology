@@ -9,6 +9,25 @@ def ret(count, ls):
 		m = np.mean(count, axis=1)
 		return m[0] if len(m) == 1 else m
 
+def edge_correct(p1XY):
+	xbound = [np.min(p1XY.T[0]),np.max(p1XY.T[0])]
+	ybound = [np.min(p1XY.T[1]),np.max(p1XY.T[1])]
+	weights = []
+	for cell in p1XY:
+		areas = np.zeros(2)
+		# Check the X and Y edges
+		for i in range(2):
+			OP = np.min(np.abs(xbound-cell[i]))
+			if OP < R:
+				theta = 2 * np.arccos(OP/R)
+				sector = R**2 * theta / 2
+				triangle = 1/2 * R**2 * np.sin(theta)
+				areas[i] = sector - triangle
+		totarea = np.pi * R**2
+		prop = (totarea - areas)/totarea
+		weights.append(np.max(1/prop))
+	return weights
+
 
 # Counting K-function:
 def CKfunction(p1XY, p2XY, R, ls = False):
@@ -21,7 +40,8 @@ def CKfunction(p1XY, p2XY, R, ls = False):
 	   of phenotype 2 cells within R units of each p1 cell for each R. If
 	   false, returns the mean cell count for each R'''
 	dists = cdist(p1XY,p2XY)
-	counter = lambda r: np.sum((dists <= r), axis=1)
+	W = edge_correct(p1XY)
+	counter = lambda r: np.sum((dists <= r), axis=1)*W
 	try:
 		count = [counter(r) for r in R]
 	except TypeError:
