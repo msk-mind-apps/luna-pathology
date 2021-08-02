@@ -170,15 +170,14 @@ def create_proxy_table():
     
     # We have to prune our tasks for only filled dataframes
     ddf = dd.from_delayed(prune_empty_delayed(outputs))
-    print (ddf.head())
-
-    POINT_TABLE_PATH = POINT_TABLE_PATH + "_TESTING_DEV/" # TO REMOVE
+    logger.info (f"Proxy table:\n{ddf.head()}")
 
     logger.info(f"Saving table -> {POINT_TABLE_PATH}")
 
     # Now we can use dasks's paralellism in the backend to write our tables!
     ddf.to_parquet(POINT_TABLE_PATH)
 
+    logger.info("Done.")
 
 if __name__ == "__main__":
     cli()
