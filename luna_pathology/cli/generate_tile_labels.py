@@ -35,7 +35,7 @@ def cli(app_config, datastore_id, method_param_path):
 
     - scale_factor: desired downscale factor
 
-    - magnification: desired magnification
+    - requested_magnification: desired magnification
 
     - root_path: path to output data
 

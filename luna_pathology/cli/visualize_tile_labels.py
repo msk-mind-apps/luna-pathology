@@ -39,7 +39,7 @@ def cli(app_config, datastore_id, method_param_path):
 
     - tile_size: requested tile size
 
-    - magnification: requested magnification of the slide
+    - requested_magnification: requested of the slide
 
     - dsa_config: map of DSA instance details. e.g. {
           "host": "localhost",
@@ -109,7 +109,7 @@ def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, met
             properties["tile_size"]   = method_data["tile_size"]
             # inference result doesn't need to be scaled. set to 1
             properties["scale_factor"]   = 1
-            properties["magnification"]   = method_data["magnification"]
+            properties["requested_magnification"]   = method_data["requested_magnification"]
             properties["output_folder"]   = method_data["output_folder"]
             properties["image_filename"] = datastore_id + ".svs"
             with tempfile.TemporaryDirectory() as tmpdir:

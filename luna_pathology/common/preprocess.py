@@ -375,7 +375,7 @@ def pretile_scoring(slide_file_path: str, output_dir: str, annotation_table_path
     """
 
     requested_tile_size       = params.get("tile_size")
-    requested_magnification   = params.get("magnification")
+    requested_magnification   = params.get("requested_magnification")
 
     # optional arguments related to slideviewer annotations
     project_id               = params.get("project_id", None)
@@ -604,7 +604,7 @@ def create_tile_thumbnail_image(slide_file_path: str, scores_file_path: str, out
     """
 
     requested_tile_size       = params.get("tile_size")
-    requested_magnification   = params.get("magnification")
+    requested_magnification   = params.get("requested_magnification")
 
     logger.info("Processing slide %s", slide_file_path)
     logger.info("Params = %s", params)
