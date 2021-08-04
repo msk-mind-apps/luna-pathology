@@ -5,7 +5,6 @@ import numpy as np
 # stats = __import__("luna-pathology.luna_pathology.spatial.stats", fromlist=[None])
 from stats import *
 
-
 def runKfunction(detection_path,phenotype_path,method_data):
 
 	dfiles = os.listdir(detection_path)
@@ -18,7 +17,7 @@ def runKfunction(detection_path,phenotype_path,method_data):
 
 	print(f"Number of datapoints: {len(dfiles)}")
 
-	# Create the data structure
+	# Create the data structure to store K function results
 	data = {}
 	for i in range(len(dfiles)):
 		patient = dfiles[i].split("_")[0]
@@ -32,7 +31,7 @@ def runKfunction(detection_path,phenotype_path,method_data):
 	print(f"Number of patients: {len(data)}")
 
 	# Loop through each file and fill out the data structure
-	print("Computing the K function")
+	print("Computing the K function...")
 	for i in range(len(dfiles)):
 		print(i)
 		dpath = detection_path + "/" + dfiles[i] + "/object_detection_results.tsv"
@@ -45,21 +44,32 @@ def runKfunction(detection_path,phenotype_path,method_data):
 		p = p.drop(columns=["Image", "Name", "Class", "Parent", "ROI"])
 		df = pd.merge(df, p, on='cell_id',  how='left')
 
-		# Create the arrays
-		p1 = df[df[method_data["phenotype1"]["name"]] == method_data["phenotype1"]["value"]]
-		p2 = df[df[method_data["phenotype2"]["name"]] == method_data["phenotype2"]["value"]]
-		p1XY = np.array(p1[["Centroid X µm","Centroid Y µm"]])
-		p2XY = np.array(p2[["Centroid X µm","Centroid Y µm"]])
-		I = np.array(p2[method_data["intensity"]])
+		# Unpack the method_data dictionary
+		col1 = method_data["phenotype1"]["name"]
+		val1 = method_data["phenotype1"]["value"]
+		col2 = method_data["phenotype2"]["name"]
+		val2 = method_data["phenotype2"]["value"]
 
-		# Identify the data
+		# Create the data arrays
+		pheno1 = df[df[col1] == val1]
+		pheno2 = df[df[col2] == val2]
+		p1XY = np.array(pheno1[["Centroid X µm","Centroid Y µm"]])
+		p2XY = np.array(pheno2[["Centroid X µm","Centroid Y µm"]])
+		I = np.array(pheno2[method_data["intensity"]])
+		assert (p1XY.size != 0), f"List of phenotype 1 cells ({val1}) is empty"
+		assert (p2XY.size != 0), f"List of phenotype 2 cells ({val2}) is empty"
+
+		# Identify the datapoint
 		labels = dfiles[i].split("_")
 		patient = labels[0]
 		region = labels[1]
 		fov = labels[4]
 
 		# Compute the K function
-		k = IKfunction(p1XY,p2XY,60,I,ls=True)
+		k = Kfunction(p1XY,p2XY,60,ls=True,intensity=I)
+
+		assert(0==5)
+
 		d = {
 			"Moment":np.array([np.mean(k),np.var(k),scipy.stats.skew(k),scipy.stats.kurtosis(k)]),
 			"N":len(p1XY)
@@ -78,7 +88,6 @@ def runKfunction(detection_path,phenotype_path,method_data):
 			moments /= weight
 			data[i][j] = moments
 
-	
 	for i in data:
 		print(i)
 		for j in data[i]:
@@ -96,12 +105,12 @@ def runKfunction(detection_path,phenotype_path,method_data):
 
 
 
-dr = "/gpfs/mskmind_ess/vazquezi/data/transfers/spectrum/results/mpif/v10"
+dr = "/gpfs/mskmind_ess/vazquezi/data/transfers/spectrum/results/mpif/v11"
 d_path = dr + "/qupath/outputs/format_detection/fov"
 p_path = dr + "/cell-type/outputs/apply_thresholds/fov"
 p1 = {
 	"name" : "cell_type",
-	'value' : 'Ovarian.cancer.cell'
+	'value' : 'panCK+'
 }
 p2 = {
 	"name" : "CD68_state",
