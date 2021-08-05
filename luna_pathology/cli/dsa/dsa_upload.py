@@ -38,7 +38,7 @@ def cli(config, data_config):
         data_config_dict = yaml.safe_load(data_config_yaml)
 
     # Girder Token can be found in the DSA API Swagger Docs under 'token': (http://{host}:8080/api/v1#!/token/token_currentSession)
-    uri = dsa_config_dict["host"] + ":" + dsa_config_dict["port"]
+    uri = dsa_config_dict["host"] + ":" + str(dsa_config_dict["port"])
     token = dsa_config_dict["token"]
 
     # TODO use girder client
