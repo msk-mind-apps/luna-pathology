@@ -263,7 +263,7 @@ def regional_polygon(data_config):
     start = time.time()
 
     with open(data["input"]) as regional_file:
-        regional_annotation = geojson.load(regional_file)
+        regional_annotation = geojson.loads(geojson.load(regional_file))
 
     elements = []
     for annot in regional_annotation['features']:
@@ -279,7 +279,7 @@ def regional_polygon(data_config):
         element["lineColor"] = line_color
 
         # add coordinates
-        coords = annot['geometry']['coordinates']
+        coords = annot['geometry']['coordinates'][0]
         for c in coords:
             c.append(0)
         element["points"] = coords

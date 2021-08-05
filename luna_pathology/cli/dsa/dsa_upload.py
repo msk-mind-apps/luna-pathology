@@ -71,7 +71,8 @@ def upload_annotation_to_dsa(annotation_filepath, image_filename, collection_nam
         dsa_annotation = json.load(annotation_json)
 
     dsa_uuid = get_item_uuid(image_filename, uri, token, collection_name)
-    push_annotation_to_dsa_image(dsa_uuid, dsa_annotation, uri, token)
+    if dsa_uuid:
+        push_annotation_to_dsa_image(dsa_uuid, dsa_annotation, uri, token)
 
 if __name__ == '__main__':
     cli()
