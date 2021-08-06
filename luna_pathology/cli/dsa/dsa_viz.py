@@ -2,6 +2,7 @@ import click
 from decimal import Decimal
 import pandas as pd
 import json, geojson, ijson
+import yaml
 import copy
 import time, os
 from PIL import Image
@@ -83,7 +84,7 @@ def save_dsa_annotation(base_annotation, elements, annotation_name, output_folde
 def cli(data_config, source_type):
     """DSA annotation builder
 
-    data_config - json file with input, output, and method parameters.
+    data_config - yaml file with input, output, and method parameters.
         The method parameters differs based on the `source_type`. Please refer to the example configurations files.
         Some common parameters are:
 
@@ -128,8 +129,8 @@ def stardist_polygon(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(config_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -190,8 +191,8 @@ def stardist_cell(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(config_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -253,8 +254,8 @@ def regional_polygon(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(cofig_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -307,8 +308,8 @@ def qupath_polygon(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(config_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -379,8 +380,8 @@ def bitmask_polygon(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(config_yaml)
 
     bitmask_filepaths = list(data['input'].values())
     if not check_filepaths_valid(bitmask_filepaths):
@@ -437,9 +438,9 @@ def heatmap(data_config):
     Returns:
         string: annotation file path. None if error in writing the file.
     """
-    with open(data_config) as config_json:
-        data = json.load(config_json)
-
+    with open(data_config, 'r') as config_yaml:
+        data = yaml.safe_load(config_yaml)
+    
     if not check_filepaths_valid([data['input']]):
         return
 
