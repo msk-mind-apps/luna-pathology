@@ -4,6 +4,7 @@ import os, json, logging, pathlib
 import click
 import tempfile
 import subprocess
+import yaml
 
 # From common
 from luna_core.common.custom_logger   import init_logger
@@ -51,8 +52,8 @@ def cli(app_config, datastore_id, method_param_path):
     """
     init_logger()
 
-    with open(method_param_path) as json_file:
-        method_data = json.load(json_file)
+    with open(method_param_path, 'r') as yaml_file:
+        method_data = yaml.safe_load(yaml_file)
     visualize_tile_labels_with_datastore(app_config, datastore_id, method_data)
 
 def visualize_tile_labels_with_datastore(app_config: str, datastore_id: str, method_data: dict):
