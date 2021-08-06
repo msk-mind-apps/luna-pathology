@@ -255,7 +255,7 @@ def regional_polygon(data_config):
         string: annotation file path. None if error in writing the file.
     """
     with open(data_config, 'r') as config_yaml:
-        data = yaml.safe_load(cofig_yaml)
+        data = yaml.safe_load(config_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -440,7 +440,7 @@ def heatmap(data_config):
     """
     with open(data_config, 'r') as config_yaml:
         data = yaml.safe_load(config_yaml)
-    
+
     if not check_filepaths_valid([data['input']]):
         return
 
