@@ -6,7 +6,6 @@ The following notebook tutorials walk you through analysis workflows.
 .. toctree::
     :maxdepth: 1
 
-    examples/setup.ipynb
     examples/dataset-prep.ipynb
     examples/tiling.ipynb
     examples/model-training.ipynb

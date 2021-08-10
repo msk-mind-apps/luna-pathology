@@ -49,3 +49,14 @@ Once you have a copy of the source, you can install it with:
 
 .. _Github repo: https://github.com/msk-mind-apps/luna_pathology
 .. _tarball: https://github.com/msk-mind-apps/luna_pathology/tarball/master
+
+
+Local Installation
+------------------
+
+This notebook tutorial will go help you setup your local environment and project directories.
+
+.. toctree::
+    :maxdepth: 1
+
+    examples/setup.ipynb
