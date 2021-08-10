@@ -10,6 +10,7 @@ Welcome to luna-pathology's documentation!
    usage
    data-eng-cli
    feature-generation-cli
+   examples
    modules
    contributing
    authors
