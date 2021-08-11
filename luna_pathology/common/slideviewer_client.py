@@ -10,6 +10,7 @@ from typing import Dict
 import zipfile
 import requests
 import logging
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ def get_slide_id(full_filename:str) -> str:
     return full_filename.split(";")[-1].replace(".svs", "")
 
 
-def fetch_slide_ids(url:str, project_id:int, dest_dir:str, csv_file:str=None)->list:
+def fetch_slide_ids(url:str, project_id:int, dest_dir:str, csv_file:str=None, as_df=False)->list:
     """get slide ids
 
     Fetch the list of slide ids from the slideviewer server for the project with the
@@ -82,8 +83,11 @@ def fetch_slide_ids(url:str, project_id:int, dest_dir:str, csv_file:str=None)->l
             full_filename = line.strip()
             slidename = get_slide_id(full_filename)
             slides.append([full_filename, slidename, project_id])
-
-    return slides
+        
+    if as_df:
+        return pd.DataFrame(data=slides,columns=["slideviewer_path", "slide_id", "sv_project_id"])
+    else:
+        return slides
 
 
 def download_zip(url:str, dest_path:str, chunk_size:int = 128)->bool:
@@ -145,9 +149,9 @@ def download_sv_point_annotation(url:str) -> Dict[str, any]:
         logger.exception("General exception raised while trying " + url)
         return None
 
-    logger.info("Found data = " + str(data))
-    if(str(data) != '[]'):
+    if(data != []):
+        logger.info("Found data = " + str(data)[:100])
         return data
     else:
-        logger.warning("Label annotation file does not exist for slide and user.")
+        logger.debug(f"Label annotation file does not exist for slide and user @ {url}")
         return None
