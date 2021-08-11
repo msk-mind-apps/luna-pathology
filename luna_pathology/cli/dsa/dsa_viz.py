@@ -280,7 +280,12 @@ def regional_polygon(data_config):
         element["lineColor"] = line_color
 
         # add coordinates
-        coords = annot['geometry']['coordinates'][0]
+        coords = annot['geometry']['coordinates']
+        # if coordinates have extra nesting, set coordinates to 2d array.
+        coords_arr = np.array(coords)
+        if coords_arr.ndim == 3 and coords_arr.shape[0] == 1:
+            coords = np.squeeze(coords_arr).tolist()
+
         for c in coords:
             c.append(0)
         element["points"] = coords
