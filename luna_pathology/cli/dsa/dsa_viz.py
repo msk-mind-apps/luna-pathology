@@ -255,7 +255,7 @@ def regional_polygon(data_config):
         string: annotation file path. None if error in writing the file.
     """
     with open(data_config, 'r') as config_yaml:
-        data = yaml.safe_load(cofig_yaml)
+        data = yaml.safe_load(config_yaml)
 
     if not check_filepaths_valid([data['input']]):
         return
@@ -264,7 +264,7 @@ def regional_polygon(data_config):
     start = time.time()
 
     with open(data["input"]) as regional_file:
-        regional_annotation = geojson.load(regional_file)
+        regional_annotation = geojson.loads(geojson.load(regional_file))
 
     elements = []
     for annot in regional_annotation['features']:
@@ -281,6 +281,11 @@ def regional_polygon(data_config):
 
         # add coordinates
         coords = annot['geometry']['coordinates']
+        # if coordinates have extra nesting, set coordinates to 2d array.
+        coords_arr = np.array(coords)
+        if coords_arr.ndim == 3 and coords_arr.shape[0] == 1:
+            coords = np.squeeze(coords_arr).tolist()
+
         for c in coords:
             c.append(0)
         element["points"] = coords
@@ -440,7 +445,7 @@ def heatmap(data_config):
     """
     with open(data_config, 'r') as config_yaml:
         data = yaml.safe_load(config_yaml)
-    
+
     if not check_filepaths_valid([data['input']]):
         return
 

@@ -64,7 +64,9 @@ def get_item_uuid(image_name, uri, token, collection_name):
             if "name" in uuid_response_dict and "_id" in uuid_response_dict:
                 if uuid_response_dict["name"] == image_name and uuid_response_dict['baseParentId'] == collection_uuid:
                     dsa_uuid =  uuid_response_dict['_id']
+                    print(f"Image file {image_name} found with id: {dsa_uuid}")
                     return dsa_uuid
+    print(f"Image file {image_name} not found")
     return None
 
 
@@ -96,7 +98,7 @@ def push_annotation_to_dsa_image(item_uuid, dsa_annotation_json, uri, token):
         print(f"http://{uri}/histomics#?image={item_uuid}")
         return 0
     else:
-        print("Error in annotation upload:", response.status_code, response.reason)
+        print("Error in annotation upload:", response.status_code, response.text)
         return 1
 
 
